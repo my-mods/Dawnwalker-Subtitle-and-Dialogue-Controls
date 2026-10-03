@@ -1,0 +1,9 @@
+{
+  "version": "Integration Guide 1.0.7.1",
+  "url": "https://www.nexusmods.com/thebloodofdawnwalker/mods/271",
+  "file": "example/Scripts/dmm_api.lua",
+  "sha256": "6bb667bffc543d1c5c1b36ab6da66c621d6c81c9ee46f94f0f6339cae9cc884c",
+  "permission": "The integration guide explicitly instructs mod authors to copy this helper unchanged.",
+  "minimumMenuVersion": "1.0.6",
+  "hookProcessConsoleExec": 1
+}

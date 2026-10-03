@@ -1,0 +1,1 @@
+The runtime payload is under the archive's Dawnwalker folder. This package contains both UE4SS Lua scripts and font containers and uses the game-root installer.

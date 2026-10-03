@@ -1,0 +1,505 @@
+{
+  "$type": "UAssetAPI.UAsset, UAssetAPI",
+  "Info": "Serialized with UAssetAPI v2.0.0x (3228c1e)",
+  "NameMap": [
+    "SDC_Alegreya",
+    "Font",
+    "Italic",
+    "Regular",
+    "Semi Bold",
+    "/Game/SubtitleDialogueControls/Fonts/SDC_Alegreya",
+    "/Script/CoreUObject",
+    "Package",
+    "/Script/Engine",
+    "Class",
+    "Default__Font",
+    "/Game/SubtitleDialogueControls/Fonts/SDC_Alegreya-Italic",
+    "FontFace",
+    "SDC_Alegreya-Italic",
+    "/Game/SubtitleDialogueControls/Fonts/SDC_Alegreya-Regular",
+    "SDC_Alegreya-Regular",
+    "/Game/SubtitleDialogueControls/Fonts/SDC_Alegreya-SemiBold",
+    "SDC_Alegreya-SemiBold",
+    "/Game/_Dawnwalker/UI/Fonts/Chinese/FF_Noto_ChineseSimplified_Bold",
+    "FF_Noto_ChineseSimplified_Bold",
+    "/Game/_Dawnwalker/UI/Fonts/Chinese/FF_Noto_ChineseSimplified_Regular",
+    "FF_Noto_ChineseSimplified_Regular",
+    "/Game/_Dawnwalker/UI/Fonts/Chinese/FF_Noto_ChineseTraditional_Bold",
+    "FF_Noto_ChineseTraditional_Bold",
+    "/Game/_Dawnwalker/UI/Fonts/Chinese/FF_Noto_ChineseTraditional_Regular",
+    "FF_Noto_ChineseTraditional_Regular",
+    "/Game/_Dawnwalker/UI/Fonts/Japanese/FF_ShipporiMincho_Bold",
+    "FF_ShipporiMincho_Bold",
+    "/Game/_Dawnwalker/UI/Fonts/Korean/FF_Noto_Korean_Bold",
+    "FF_Noto_Korean_Bold",
+    "/Game/_Dawnwalker/UI/Fonts/Korean/FF_Noto_Korean_Regular",
+    "FF_Noto_Korean_Regular",
+    "/Game/_Dawnwalker/UI/Fonts/PrivateAccess_ZeroWidth",
+    "PrivateAccess_ZeroWidth"
+  ],
+  "CustomSerializationFlags": "None",
+  "UseSeparateBulkDataFiles": true,
+  "IsUnversioned": true,
+  "FileVersionLicenseeUE": 0,
+  "GameSpecificOverride": "None",
+  "ObjectVersion": "VER_UE4_CORRECT_LICENSEE_FLAG",
+  "ObjectVersionUE5": "ASSETREGISTRY_PACKAGEBUILDDEPENDENCIES",
+  "CustomVersionContainer": [
+    {
+      "$type": "UAssetAPI.CustomVersion, UAssetAPI",
+      "Name": null,
+      "Key": "{375EC13C-06E4-48FB-B500-84F0262A717E}",
+      "FriendlyName": "FCoreObjectVersion",
+      "Version": 4,
+      "IsSerialized": false
+    },
+    {
+      "$type": "UAssetAPI.CustomVersion, UAssetAPI",
+      "Name": null,
+      "Key": "{E4B068ED-F494-42E9-A231-DA0B2E46BB41}",
+      "FriendlyName": "FEditorObjectVersion",
+      "Version": 40,
+      "IsSerialized": false
+    },
+    {
+      "$type": "UAssetAPI.CustomVersion, UAssetAPI",
+      "Name": null,
+      "Key": "{CFFC743F-43B0-4480-9391-14DF171D2073}",
+      "FriendlyName": "FFrameworkObjectVersion",
+      "Version": 37,
+      "IsSerialized": false
+    },
+    {
+      "$type": "UAssetAPI.CustomVersion, UAssetAPI",
+      "Name": null,
+      "Key": "{7B5AE74C-D270-4C10-A958-57980B212A5A}",
+      "FriendlyName": "FSequencerObjectVersion",
+      "Version": 13,
+      "IsSerialized": false
+    },
+    {
+      "$type": "UAssetAPI.CustomVersion, UAssetAPI",
+      "Name": null,
+      "Key": "{29E575DD-E0A3-4627-9D10-D276232CDCEA}",
+      "FriendlyName": "FAnimPhysObjectVersion",
+      "Version": 17,
+      "IsSerialized": false
+    },
+    {
+      "$type": "UAssetAPI.CustomVersion, UAssetAPI",
+      "Name": null,
+      "Key": "{601D1886-AC64-4F84-AA16-D3DE0DEAC7D6}",
+      "FriendlyName": "FFortniteMainBranchObjectVersion",
+      "Version": 170,
+      "IsSerialized": false
+    },
+    {
+      "$type": "UAssetAPI.CustomVersion, UAssetAPI",
+      "Name": null,
+      "Key": "{F2AED0AC-9AFE-416F-8664-AA7FFA26D6FC}",
+      "FriendlyName": "FNiagaraObjectVersion",
+      "Version": 1,
+      "IsSerialized": false
+    },
+    {
+      "$type": "UAssetAPI.CustomVersion, UAssetAPI",
+      "Name": null,
+      "Key": "{717F9EE7-E9B0-493A-88B3-91321B388107}",
+      "FriendlyName": "FAssetRegistryVersion",
+      "Version": 17,
+      "IsSerialized": false
+    },
+    {
+      "$type": "UAssetAPI.CustomVersion, UAssetAPI",
+      "Name": null,
+      "Key": "{9C54D522-A826-4FBE-9421-074661B482D0}",
+      "FriendlyName": "FReleaseObjectVersion",
+      "Version": 44,
+      "IsSerialized": false
+    },
+    {
+      "$type": "UAssetAPI.CustomVersion, UAssetAPI",
+      "Name": null,
+      "Key": "{E7086368-6B23-4C58-8439-1B7016265E91}",
+      "FriendlyName": "FFortniteReleaseBranchCustomObjectVersion",
+      "Version": 15,
+      "IsSerialized": false
+    },
+    {
+      "$type": "UAssetAPI.CustomVersion, UAssetAPI",
+      "Name": null,
+      "Key": "{D89B5E42-24BD-4D46-8412-ACA8DF641779}",
+      "FriendlyName": "FUE5ReleaseStreamObjectVersion",
+      "Version": 51,
+      "IsSerialized": false
+    },
+    {
+      "$type": "UAssetAPI.CustomVersion, UAssetAPI",
+      "Name": null,
+      "Key": "{FCF57AFA-5076-4283-B9A9-E658FFA02D32}",
+      "FriendlyName": "FNiagaraCustomVersion",
+      "Version": 90,
+      "IsSerialized": false
+    },
+    {
+      "$type": "UAssetAPI.CustomVersion, UAssetAPI",
+      "Name": null,
+      "Key": "{59DA5D52-1232-4948-B878-597870B8E98B}",
+      "FriendlyName": "FUE5SpecialProjectStreamObjectVersion",
+      "Version": 8,
+      "IsSerialized": false
+    },
+    {
+      "$type": "UAssetAPI.CustomVersion, UAssetAPI",
+      "Name": null,
+      "Key": "{E21E1CAA-AF47-425E-89BF-6AD44C44A8BB}",
+      "FriendlyName": "FInstancedStructCustomVersion",
+      "Version": 1,
+      "IsSerialized": false
+    }
+  ],
+  "SoftObjectPathList": [],
+  "GatherableTextData": null,
+  "Exports": [
+    {
+      "$type": "UAssetAPI.ExportTypes.RawExport, UAssetAPI",
+      "Data": "AAIMBwEQAAAAAAAAAAAAAAAABwADAwAAAAAFAwAAAAAAAAABAAAA/P///wAAAAAABQQAAAAAAAAAAQAAAPv///8AAAAAAAUCAAAAAAAAAAEAAAD9////AAAAAAADAAMCAAAAAAUDAAAAAAAAAAEAAAD5////AAAAAAAFBAAAAAAAAAABAAAA+v///wAAAAAEAAAAAAkSAAAAAAUABQEAMwAAAAUB/zMAAAAFAAUBMP4AAAAFAU/+AAAABQAFAQD5AAAABQH/+gAAAAUABQEA+AIAAAUBH/oCAAAFAAUBgC4AAAAFAf8uAAAABQAFAcAxAAAABQHvMQAAAAUABQEAMAAAAAUBPzAAAAAFAAUBAE4AAAAFAf+fAAAABQAFAQA0AAAABQG/TQAAAAUABQEAAAIAAAUB1qYCAAAFAAUBAKcCAAAFATS3AgAABQAFAUC3AgAABQEduAIAAAUABQEguAIAAAUBoc4CAAAFAAUBADIAAAAFAf8yAAAABQAFAQD/AAAABQHv/wAAAAUABQFAMAAAAAUBnzAAAAAFAAUBoDAAAAAFAf8wAAAABQAFAfAxAAAABQH/MQAAAwAAAGphAAADAgAAAAAFAwAAAAAAAAABAAAA9v///wAAAAAABQQAAAAAAAAAAQAAAPb///8AAAAAAACAPwAJEgAAAAAFAAUBADMAAAAFAf8zAAAABQAFATD+AAAABQFP/gAAAAUABQEA+QAAAAUB//oAAAAFAAUBAPgCAAAFAR/6AgAABQAFAYAuAAAABQH/LgAAAAUABQHAMQAAAAUB7zEAAAAFAAUBADAAAAAFAT8wAAAABQAFAQBOAAAABQH/nwAAAAUABQEANAAAAAUBv00AAAAFAAUBAAACAAAFAdamAgAABQAFAQCnAgAABQE0twIAAAUABQFAtwIAAAUBHbgCAAAFAAUBILgCAAAFAaHOAgAABQAFAQAyAAAABQH/MgAAAAUABQEA/wAAAAUB7/8AAAAFAAUBQDAAAAAFAZ8wAAAABQAFAaAwAAAABQH/MAAAAAUABQHwMQAAAAUB/zEAAAgAAAB6aC1IYW50AAADAgAAAAAFAwAAAAAAAAABAAAA9////wAAAAAABQQAAAAAAAAAAQAAAPj///8AAAAAAACAPwAJBQAAAAAFAAUBMDEAAAAFAY8xAAAABQAFAQARAAAABQH/EQAAAAUABQFgqQAAAAUBf6kAAAAFAAUBsNcAAAAFAf/XAAAABQAFAQCsAAAABQGv1wAAAAAAAAADAgAAAAAFAwAAAAAAAAABAAAA9P///wAAAAAABQQAAAAAAAAAAQAAAPX///8AAAAAAACAPwAJAgAAAAAFAAUBAOAAAAAFAQD5AAAABQAFAWAgAAAABQFgIAAAAAAAAAADAQAAAAAFAQAAAAAAAAABAAAA8////wAAAAAAAIA/AAAAAAAAAAA=",
+      "ObjectName": "SDC_Alegreya",
+      "OuterIndex": 0,
+      "ClassIndex": -1,
+      "SuperIndex": 0,
+      "TemplateIndex": -2,
+      "ObjectFlags": "RF_Public, RF_Standalone, RF_Transactional",
+      "SerialSize": 1088,
+      "SerialOffset": 2507,
+      "ScriptSerializationStartOffset": 0,
+      "ScriptSerializationEndOffset": 0,
+      "bForcedExport": false,
+      "bNotForClient": false,
+      "bNotForServer": true,
+      "PackageGuid": "{00000000-0000-0000-0000-000000000000}",
+      "IsInheritedInstance": false,
+      "PackageFlags": "PKG_None",
+      "bNotAlwaysLoadedForEditorGame": false,
+      "bIsAsset": true,
+      "GeneratePublicHash": false,
+      "SerializationBeforeSerializationDependencies": [],
+      "CreateBeforeSerializationDependencies": [
+        -4,
+        -5,
+        -3,
+        -7,
+        -6,
+        -10,
+        -9,
+        -8,
+        -12,
+        -11,
+        -13
+      ],
+      "SerializationBeforeCreateDependencies": [
+        -1,
+        -2
+      ],
+      "CreateBeforeCreateDependencies": [],
+      "Extras": ""
+    }
+  ],
+  "SearchableNames": null,
+  "ImportTypeHierarchies": null,
+  "MetaData": null,
+  "Thumbnails": null,
+  "WorldTileInfo": null,
+  "AppendedNullBytes": 0,
+  "OtherAssetsFailedToAccess": [],
+  "LegacyFileVersion": -8,
+  "DataResourceVersion": "Invalid",
+  "DataResources": null,
+  "UsesEventDrivenLoader": true,
+  "WillSerializeNameHashes": true,
+  "Imports": [
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "Font",
+      "OuterIndex": -25,
+      "ClassPackage": "/Script/CoreUObject",
+      "ClassName": "Class",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "Default__Font",
+      "OuterIndex": -25,
+      "ClassPackage": "/Script/Engine",
+      "ClassName": "Font",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "SDC_Alegreya-Italic",
+      "OuterIndex": -14,
+      "ClassPackage": "/Script/Engine",
+      "ClassName": "FontFace",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "SDC_Alegreya-Regular",
+      "OuterIndex": -15,
+      "ClassPackage": "/Script/Engine",
+      "ClassName": "FontFace",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "SDC_Alegreya-SemiBold",
+      "OuterIndex": -16,
+      "ClassPackage": "/Script/Engine",
+      "ClassName": "FontFace",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "FF_Noto_ChineseSimplified_Bold",
+      "OuterIndex": -17,
+      "ClassPackage": "/Script/Engine",
+      "ClassName": "FontFace",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "FF_Noto_ChineseSimplified_Regular",
+      "OuterIndex": -18,
+      "ClassPackage": "/Script/Engine",
+      "ClassName": "FontFace",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "FF_Noto_ChineseTraditional_Bold",
+      "OuterIndex": -19,
+      "ClassPackage": "/Script/Engine",
+      "ClassName": "FontFace",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "FF_Noto_ChineseTraditional_Regular",
+      "OuterIndex": -20,
+      "ClassPackage": "/Script/Engine",
+      "ClassName": "FontFace",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "FF_ShipporiMincho_Bold",
+      "OuterIndex": -21,
+      "ClassPackage": "/Script/Engine",
+      "ClassName": "FontFace",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "FF_Noto_Korean_Bold",
+      "OuterIndex": -22,
+      "ClassPackage": "/Script/Engine",
+      "ClassName": "FontFace",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "FF_Noto_Korean_Regular",
+      "OuterIndex": -23,
+      "ClassPackage": "/Script/Engine",
+      "ClassName": "FontFace",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "PrivateAccess_ZeroWidth",
+      "OuterIndex": -24,
+      "ClassPackage": "/Script/Engine",
+      "ClassName": "FontFace",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "/Game/SubtitleDialogueControls/Fonts/SDC_Alegreya-Italic",
+      "OuterIndex": 0,
+      "ClassPackage": "/Script/CoreUObject",
+      "ClassName": "Package",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "/Game/SubtitleDialogueControls/Fonts/SDC_Alegreya-Regular",
+      "OuterIndex": 0,
+      "ClassPackage": "/Script/CoreUObject",
+      "ClassName": "Package",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "/Game/SubtitleDialogueControls/Fonts/SDC_Alegreya-SemiBold",
+      "OuterIndex": 0,
+      "ClassPackage": "/Script/CoreUObject",
+      "ClassName": "Package",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "/Game/_Dawnwalker/UI/Fonts/Chinese/FF_Noto_ChineseSimplified_Bold",
+      "OuterIndex": 0,
+      "ClassPackage": "/Script/CoreUObject",
+      "ClassName": "Package",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "/Game/_Dawnwalker/UI/Fonts/Chinese/FF_Noto_ChineseSimplified_Regular",
+      "OuterIndex": 0,
+      "ClassPackage": "/Script/CoreUObject",
+      "ClassName": "Package",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "/Game/_Dawnwalker/UI/Fonts/Chinese/FF_Noto_ChineseTraditional_Bold",
+      "OuterIndex": 0,
+      "ClassPackage": "/Script/CoreUObject",
+      "ClassName": "Package",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "/Game/_Dawnwalker/UI/Fonts/Chinese/FF_Noto_ChineseTraditional_Regular",
+      "OuterIndex": 0,
+      "ClassPackage": "/Script/CoreUObject",
+      "ClassName": "Package",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "/Game/_Dawnwalker/UI/Fonts/Japanese/FF_ShipporiMincho_Bold",
+      "OuterIndex": 0,
+      "ClassPackage": "/Script/CoreUObject",
+      "ClassName": "Package",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "/Game/_Dawnwalker/UI/Fonts/Korean/FF_Noto_Korean_Bold",
+      "OuterIndex": 0,
+      "ClassPackage": "/Script/CoreUObject",
+      "ClassName": "Package",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "/Game/_Dawnwalker/UI/Fonts/Korean/FF_Noto_Korean_Regular",
+      "OuterIndex": 0,
+      "ClassPackage": "/Script/CoreUObject",
+      "ClassName": "Package",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "/Game/_Dawnwalker/UI/Fonts/PrivateAccess_ZeroWidth",
+      "OuterIndex": 0,
+      "ClassPackage": "/Script/CoreUObject",
+      "ClassName": "Package",
+      "PackageName": null,
+      "bImportOptional": false
+    },
+    {
+      "$type": "UAssetAPI.Import, UAssetAPI",
+      "ObjectName": "/Script/Engine",
+      "OuterIndex": 0,
+      "ClassPackage": "/Script/CoreUObject",
+      "ClassName": "Package",
+      "PackageName": null,
+      "bImportOptional": false
+    }
+  ],
+  "DependsMap": [
+    []
+  ],
+  "SoftPackageReferenceList": null,
+  "AssetRegistryDependencyDataOffset": -1,
+  "AssetRegistryRecords": [],
+  "ImportBits": null,
+  "SoftPackageBits": null,
+  "ExtraPackageDependencies": null,
+  "BulkData": null,
+  "AdditionalFiles": "wYMqng==",
+  "Trailer": null,
+  "Generations": [
+    {
+      "$type": "UAssetAPI.FGenerationInfo, UAssetAPI",
+      "ExportCount": 1,
+      "NameCount": 34
+    }
+  ],
+  "PackageGuid": "{00000000-0000-0000-0000-000000000000}",
+  "PersistentGuid": "{00000000-0000-0000-0000-000000000000}",
+  "RecordedEngineVersion": {
+    "$type": "UAssetAPI.FEngineVersion, UAssetAPI",
+    "Major": 0,
+    "Minor": 0,
+    "Patch": 0,
+    "Changelist": 0,
+    "Branch": null
+  },
+  "RecordedCompatibleWithEngineVersion": {
+    "$type": "UAssetAPI.FEngineVersion, UAssetAPI",
+    "Major": 0,
+    "Minor": 0,
+    "Patch": 0,
+    "Changelist": 0,
+    "Branch": null
+  },
+  "ChunkIDs": [],
+  "PackageSource": 0,
+  "FolderName": "/Game/SubtitleDialogueControls/Fonts/SDC_Alegreya",
+  "LocalizationId": null,
+  "SoftObjectPathsCount": 0,
+  "SoftObjectPathsOffset": 1551,
+  "SearchableNamesOffset": 0,
+  "ThumbnailTableOffset": 0,
+  "ImportTypeHierarchiesCount": 0,
+  "ImportTypeHierarchiesOffset": 0,
+  "SavedHash": null,
+  "CompressionFlags": 0,
+  "AdditionalPackagesToCook": [],
+  "NamesReferencedFromExportDataCount": 6,
+  "PayloadTocOffset": -1,
+  "DataResourceOffset": -1,
+  "doWeHaveAssetRegistryData": true,
+  "doWeHaveWorldTileInfo": false,
+  "PackageFlags": "PKG_Cooked, PKG_UnversionedProperties, PKG_FilterEditorOnly",
+  "HasUnversionedProperties": true,
+  "IsFilterEditorOnly": true
+}

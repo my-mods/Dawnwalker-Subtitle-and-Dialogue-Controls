@@ -1,0 +1,7 @@
+The unchanged dmm_api.lua helper comes from Dawnwalker Mod Menu's Integration
+Guide 1.0.7.1, example/Scripts/dmm_api.lua.
+Source: https://www.nexusmods.com/thebloodofdawnwalker/mods/271
+
+The guide expressly instructs mod authors to copy this helper into their own
+Scripts folder to use the Apply callback. That copying permission covers this
+bundled helper; no broader license is claimed.

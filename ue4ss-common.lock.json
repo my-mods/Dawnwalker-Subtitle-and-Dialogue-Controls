@@ -1,0 +1,27 @@
+{
+  "repository": "https://github.com/my-mods/ue4ss-common",
+  "commit": "b51434dee720bc000090d4cf387d60f8f6be7e60",
+  "modules": [
+    {
+      "source": "src/SettingsStore.lua",
+      "sha256": "db597ebcfbe67fd03aa16c3c2eb4129c346975961e4df0481bb70440aa7cfa26",
+      "destinations": [
+        "src/SettingsStore.lua"
+      ]
+    },
+    {
+      "source": "LICENSE",
+      "sha256": "a515d2ead541481076e42835ec62bd5e9cb488538eda2aec8b47ab82fcab019d",
+      "destinations": [
+        "LICENSES/ue4ss-common.txt"
+      ]
+    },
+    {
+      "source": "src/games/UE4SSDawnwalkerSettings.lua",
+      "sha256": "039b09679eafec2b19cd8f27e3033dec26a52484a7529edbf14f15193ba07ef1",
+      "destinations": [
+        "src/UE4SSDawnwalkerSettings.lua"
+      ]
+    }
+  ]
+}

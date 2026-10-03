@@ -1,0 +1,7 @@
+[Settings]
+enabled = 1
+subtitlePercent = 75
+dialoguePercent = 100
+gameplayPercent = 100
+fontFamily = 1
+debugLogging = 0

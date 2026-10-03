@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mod>
+  <info>
+    <name>Subtitle and Dialogue Controls</name>
+    <modid>SubtitleDialogueControls</modid>
+    <description>Independent subtitle and dialogue sizes with vanilla Afacad or Alegreya fonts.</description>
+    <author>oOCamilleOo</author>
+    <version>0.1.0</version>
+    <created_on>2026-10-03</created_on>
+  </info>
+  <supports>
+    <game>The Blood of Dawnwalker</game>
+    <requires>UE4SS with Lua 5.4, native UFunction hooks and delayed game-thread actions</requires>
+    <optional>Dawnwalker Mod Menu 1.0.6 or later for in-game controls and live Apply</optional>
+  </supports>
+</mod>

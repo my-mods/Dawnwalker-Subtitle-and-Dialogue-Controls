@@ -1,0 +1,5 @@
+.local/
+AGENTS.md
+agent-notes/
+__pycache__/
+*.pyc

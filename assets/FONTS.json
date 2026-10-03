@@ -1,0 +1,46 @@
+{
+  "Afacad": "Original Afacad 1.000 font faces from the game, SIL OFL 1.1.",
+  "Alegreya": "Google Fonts ofl/alegreya; upstream commit 199711f8c8d2cafc88f26c174152abfa18eb62c3; static instances from the variable fonts.",
+  "urls": [
+    "https://github.com/google/fonts/tree/main/ofl/alegreya",
+    "https://github.com/Dicotype/Afacad"
+  ],
+  "fonts": {
+    "Afacad-Regular.ufont": {
+      "sha256": "870e37200969705e08bed96453288c9c8602e0cc52dd483af8f8b2d33c69c458",
+      "family": "Afacad",
+      "style": "Regular",
+      "version": "Version 1.000"
+    },
+    "Afacad-Italic.ufont": {
+      "sha256": "b97d7f25249c405708811136845921c2e4f4489d03c077d80b8a6ab68ec76e73",
+      "family": "Afacad",
+      "style": "Italic",
+      "version": "Version 1.000"
+    },
+    "Afacad-SemiBold.ufont": {
+      "sha256": "1d414e4a3883b981bfab38210e18312211c96a11c18c4f169677fea4c1904791",
+      "family": "Afacad SemiBold",
+      "style": "Regular",
+      "version": "Version 1.000"
+    },
+    "Alegreya-Regular.ufont": {
+      "sha256": "ed8ca04d29f69b600acd76a57a11af1ab691f3f6d1ecfa15327887bcb72113ea",
+      "family": "Alegreya",
+      "style": "Regular",
+      "version": "Version 2.009"
+    },
+    "Alegreya-Italic.ufont": {
+      "sha256": "8767a257277260f3587939c6992dd57b01e5ab0092b02a04ce1cf34e12f857b0",
+      "family": "Alegreya",
+      "style": "Italic",
+      "version": "Version 2.009"
+    },
+    "Alegreya-SemiBold.ufont": {
+      "sha256": "ce8d9cf6328f5a237c7a7d65c4d13dfccf020a8eab9b42331faf15de1608e3a2",
+      "family": "Alegreya",
+      "style": "Regular",
+      "version": "Version 2.009"
+    }
+  }
+}

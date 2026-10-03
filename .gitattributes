@@ -1,0 +1,11 @@
+* text=auto eol=lf
+*.ufont -text
+*.pak -text
+*.utoc -text
+*.ucas -text
+*.zip -text
+# Preserve the pinned upstream files byte for byte.
+src/SettingsStore.lua -text whitespace=cr-at-eol
+src/UE4SSDawnwalkerSettings.lua -text whitespace=cr-at-eol
+src/dmm_api.lua -text whitespace=cr-at-eol
+LICENSES/*.txt -whitespace
