@@ -196,7 +196,8 @@ observeText=function(label)
     enqueue(label)
 end
 local function step()
-    if refreshFont then loadFont(neededFont());refreshFont=neededFont()~=nil;return true
+    if refreshFont then
+        local selection=neededFont();loadFont(selection);refreshFont=neededFont()~=nil;return selection~=nil
     elseif queue.first<=queue.last then
         local q=queue
         local item=q.items[q.first];q.items[q.first]=nil;q.first=q.first+1;pending[item.address]=nil
@@ -216,10 +217,14 @@ local function step()
 end
 pump=function()
     local start=cfg.debugLogging==1 and os.clock() or nil
-    -- Bounded work across the whole worker, with subtitle priority. Clock reads
-    -- here enforce a frame budget even when optional diagnostics are disabled.
-    local deadline=os.clock()+0.0005
-    for _=1,8 do
+    -- Apply is a short user-triggered burst. Larger batches avoid a visible
+    -- item-by-item wave; a time cap still bounds each callback. Ordinary subtitle
+    -- events retain their smaller budget, and asset loads keep their own slice.
+    local applying=ui.busy()
+    local deadline=os.clock()+(applying and 0.004 or 0.0005)
+    local maximum=applying and 128 or 8
+    if applying then ui.beginBatch()end
+    for _=1,maximum do
         local ok,loaded=pcall(step)
         if not ok then
             report('worker','Text worker stopped this operation: '..tostring(loaded))

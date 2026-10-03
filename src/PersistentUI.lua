@@ -31,13 +31,20 @@ function M.new(report)
     local styleClass,libraryClass,objectClass
     local setters={}
     local owners,rich={},{DWW_RichText_C=true,RichTextBlock=true,CommonRichTextBlock=true}
-    local assets,styles,styleByAddress,templates,templateByOwner,live={},{},{},{},{},{}
+    local assets,styles,styleByAddress,styleByClass,templates,templateByOwner,live={},{},{},{},{},{},{}
+    local inlineTemplates={}
+    local liveCount=0
     local holders,pins,pinned={},{},{}
     local phase,cursor,key,reason
-    local prune={}
-    local initialized,prepared,incomplete=false,false,false
+    -- Freeze construction captures after defaults are ready. New menu openings
+    -- inherit those defaults and stay in the next capture set without waking us.
+    local batches,batchIndex,batchKey={},1,nil
+    local passWorld,ownerCache
+    local initialized,prepared,needsRecovery=false,false,false
     local previous
     local passes,writes,seconds,maximum=0,0,0,0
+    local measured={}
+    local requestStarted
     local function property(o,name,kind)
         local p=o:Reflection():GetProperty(name)
         assert(p and p:IsValid() and p:GetFullName():match('^(%S+)')==kind,'Unsupported '..name..' property')
@@ -92,7 +99,9 @@ function M.new(report)
         assert(valid(libraryClass) and valid(styleClass) and valid(objectClass) and valid(system),'Persistent UI classes are not ready')
         for owner,labels in pairs(targets)do
             local allow={}
-            for name,class in pairs(labels)do allow[FName(name):GetComparisonIndex()]=FName(class):GetComparisonIndex()end
+            for name,class in pairs(labels)do
+                allow[FName(name):GetComparisonIndex()]={class=FName(class):GetComparisonIndex(),rich=rich[class]==true,owner=owner,name=name}
+            end
             owners[FName(owner):GetComparisonIndex()]=allow
         end
         initialized=true
@@ -100,31 +109,42 @@ function M.new(report)
     end
     local function load(path)
         local object=StaticFindObject(path)
+        local blocking=false
         if not valid(object)then
+            blocking=true
             local soft=system:MakeSoftObjectPath(path)
             object=system:LoadAsset_Blocking(system:Conv_SoftObjPathToSoftObjRef(soft))
         end
         assert(valid(object),'UI asset unavailable: '..path)
         self.pin(object)
-        return object
+        return object,blocking
     end
     local function rememberStyle(class,mutable)
         if not valid(class) or not class:IsChildOf(styleClass)then return end
+        local classAddress=class:GetAddress()
+        local cached=styleByClass[classAddress]
+        if cached and valid(cached.object)then return cached end
         local object=class:GetCDO()
         assert(valid(object),'UI style default is unavailable')
         local address=object:GetAddress()
-        if styleByAddress[address]then return styleByAddress[address]end
+        if styleByAddress[address]then
+            styleByClass[classAddress]=styleByAddress[address]
+            return styleByAddress[address]
+        end
         property(object,'Font','StructProperty')
         local font=object.Font
         assert(number(font.Size) and valid(font.FontObject),'UI style font layout is unsupported')
-        self.pin(class);self.pin(font.FontObject)
+        self.pin(class);self.pin(object);self.pin(font.FontObject)
         local entry={object=object,baseSize=font.Size,baseFont=font.FontObject,ui=mutable}
-        styles[#styles+1]=entry;styleByAddress[address]=entry
+        styles[#styles+1]=entry;styleByAddress[address]=entry;styleByClass[classAddress]=entry
         return entry
     end
     local function styleFor(label,isRich)
         local class=isRich and label.DefaultTextStyleOverrideClass or label.Style
-        if not valid(class) or not class:IsA(objectClass)then return end
+        if not valid(class)then return end
+        local cached=styleByClass[class:GetAddress()]
+        if cached and valid(cached.object)then return cached end
+        if not class:IsA(objectClass)then return end
         if not class:IsChildOf(styleClass)then return end
         return styleByAddress[class:GetCDO():GetAddress()]
     end
@@ -137,7 +157,7 @@ function M.new(report)
         local font=style and style.object.Font or fontFor(label,isRich)
         assert(number(font.Size) and valid(font.FontObject),'UI widget font layout is unsupported')
         self.pin(font.FontObject)
-        return {object=label,rich=isRich,baseSize=font.Size,baseFont=font.FontObject}
+        return {object=label,rich=isRich,baseSize=style and style.baseSize or font.Size,baseFont=style and style.baseFont or font.FontObject}
     end
     local function desired(entry)
         if cfg.enabled~=1 then return entry.baseSize,entry.baseFont end
@@ -146,7 +166,7 @@ function M.new(report)
     local function change(entry,font,newSize,newFont)
         if font.Size==newSize and same(font.FontObject,newFont)then return false end
         font.Size=newSize;font.FontObject=newFont
-        if cfg.debugLogging==1 then writes=writes+1 end
+        if cfg.debugLogging==1 and requestStarted then writes=writes+1 end
         return true
     end
     local function updateStyle(entry)
@@ -206,34 +226,63 @@ function M.new(report)
         if not valid(label) or label:HasAnyFlags(0x30)then return end
         local tree=label:GetOuter();if not valid(tree)then return end
         local owner=tree:GetOuter();if not valid(owner) or owner:HasAnyFlags(0x30)then return end
-        local allow=owners[owner:GetClass():GetFName():GetComparisonIndex()]
-        if not allow or allow[label:GetFName():GetComparisonIndex()]~=label:GetClass():GetFName():GetComparisonIndex()then return end
-        if not same(label:GetWorld(),worldNow())then return end
-        return true
+        local address=owner:GetAddress()
+        local cached=ownerCache[address]
+        if cached==nil then
+            local allow=owners[owner:GetClass():GetFName():GetComparisonIndex()]
+            cached=allow and {allow=allow,world=owner:GetWorld()} or false
+            ownerCache[address]=cached
+        end
+        if not cached then return end
+        local labelType=cached.allow[label:GetFName():GetComparisonIndex()]
+        if not labelType or labelType.class~=label:GetClass():GetFName():GetComparisonIndex()then return end
+        if not valid(passWorld)then return nil,'defer' end
+        if not same(cached.world,passWorld)then return end
+        return owner,cached.world,labelType
+    end
+    local function beginDiscovery()
+        if next(captured)then batches[#batches+1]=captured;captured={}end
+        phase='discover';key=nil
     end
     function self.request(snapshot,why)
         cfg=snapshot
         if not initialized then return end
         local signature=table.concat({cfg.enabled,cfg.uiPercent,cfg.uiFontFamily},':')
         if signature==previous and why=='settings'then return end
-        previous=signature;reason=why;cursor=1;key=nil;incomplete=false;prune={}
-        -- Incomplete loading is retried only by another explicit load/Apply.
-        phase=prepared and 'styles' or 'load-styles'
-        if cfg.debugLogging==1 then passes=passes+1;writes=0;seconds=0;maximum=0 end
+        previous=signature;reason=why;cursor=1;key=nil;passWorld=worldNow()
+        -- An unavailable optional template must not make every Apply redo all
+        -- startup work. A load retries preparation, reusing successful entries.
+        local prepare=not prepared or why=='load' and needsRecovery
+        phase=prepare and 'load-styles' or 'styles'
+        if prepare then needsRecovery=false end
+        requestStarted=nil
+        if cfg.debugLogging==1 then
+            passes=passes+1;writes=0;seconds=0;maximum=0;measured={};requestStarted=os.clock()
+        end
     end
     function self.busy()return phase~=nil end
+    function self.beginBatch()
+        -- Owner lookups are reused only within this game-thread callback.
+        ownerCache={}
+    end
     function self.step()
         if not phase then return false end
-        local started=cfg.debugLogging==1 and os.clock() or nil
+        local measuredPhase=phase
+        -- Enabling diagnostics mid-pass takes effect on the next complete pass.
+        local started=cfg.debugLogging==1 and requestStarted and os.clock() or nil
         local loaded=false
         local ok,err=pcall(function()
             if phase=='load-styles'then
                 local row=manifest.styles[cursor]
-                if row then assets[row.path]=load(row.path);cursor=cursor+1;loaded=true
+                if row then
+                    if not valid(assets[row.path])then assets[row.path],loaded=load(row.path)end
+                    cursor=cursor+1
                 else phase='load-widgets';cursor=1 end
             elseif phase=='load-widgets'then
                 local row=manifest.widgets[cursor]
-                if row then assets[row.path]=load(row.path);cursor=cursor+1;loaded=true
+                if row then
+                    if not valid(assets[row.path])then assets[row.path],loaded=load(row.path)end
+                    cursor=cursor+1
                 else phase='snapshot-styles';cursor=1 end
             elseif phase=='snapshot-styles'then
                 local row=manifest.styles[cursor]
@@ -241,21 +290,26 @@ function M.new(report)
                 else phase='snapshot-templates';cursor=1;key=nil end
             elseif phase=='snapshot-templates'then
                 local row=manifest.widgets[cursor]
-                if not row then prepared=not incomplete;phase='styles';cursor=1
+                if not row then prepared=true;phase='styles';cursor=1
                 else
                     local name,class=next(targets[row.owner],key);key=name
                     if not name then cursor=cursor+1
                     else
-                        local label=StaticFindObject(row.path..':WidgetTree.'..name)
-                        assert(valid(label) and label:GetClass():GetFName():ToString()==class,'UI template unavailable: '..row.owner..'.'..name)
-                        local isRich=rich[class]==true
-                        local selected=isRich and label.DefaultTextStyleOverrideClass or label.Style
-                        if valid(selected) and selected:IsChildOf(styleClass)then rememberStyle(selected,true)end
-                        if not (templateByOwner[row.owner] and templateByOwner[row.owner][name])then
+                        local entries=templateByOwner[row.owner]
+                        local existing=entries and entries[name]
+                        if not existing or not valid(existing.object)then
+                            local label=StaticFindObject(row.path..':WidgetTree.'..name)
+                            assert(valid(label) and label:GetClass():GetFName():ToString()==class,'UI template unavailable: '..row.owner..'.'..name)
+                            local isRich=rich[class]==true
+                            local selected=isRich and label.DefaultTextStyleOverrideClass or label.Style
+                            if valid(selected) and selected:IsChildOf(styleClass)then rememberStyle(selected,true)end
                             local entry=snapshot(label,isRich)
                             entry.owner=row.owner;entry.name=name
-                            templates[#templates+1]=entry
-                            templateByOwner[row.owner]=templateByOwner[row.owner] or {}
+                            local style=styleFor(label,isRich)
+                            entry.inline=not (style and style.ui)
+                            if existing then templates[existing.index]=entry;entry.index=existing.index
+                            else templates[#templates+1]=entry;entry.index=#templates end
+                            templateByOwner[row.owner]=entries or {}
                             templateByOwner[row.owner][name]=entry
                         end
                     end
@@ -263,49 +317,73 @@ function M.new(report)
             elseif phase=='styles'then
                 local entry=styles[cursor]
                 if entry then updateStyle(entry);cursor=cursor+1
-                else phase='templates';cursor=1 end
-            elseif phase=='templates'then
-                local entry=templates[cursor]
-                if entry then updateLabel(entry,true);cursor=cursor+1
-                else phase='live';key=nil end
-            elseif phase=='live'then
-                local address,label=next(captured,key);key=address
-                if not address then
-                    phase='prune';cursor=1
-                    if overflow then report('ui-capacity','Open-screen refresh capacity exceeded; restart to reset the cache.');overflow=false end
-                elseif target(label)then
-                    local entry=live[address]
-                    local identity=label:GetFullName()
-                    if not entry or entry.identity~=identity or entry.object~=label then
-                        entry=snapshot(label,rich[label:GetClass():GetFName():ToString()]==true);entry.identity=identity
-                        -- Newly created unstyled widgets inherit the edited template.
-                        -- Resolve their baseline from that template for Apply/Off.
-                        local owner=label:GetOuter():GetOuter():GetClass():GetFName():ToString()
-                        local t=templateByOwner[owner] and templateByOwner[owner][label:GetFName():ToString()]
-                        if t then entry.baseSize=t.baseSize;entry.baseFont=t.baseFont end
-                        live[address]=entry
-                    end
-                    updateLabel(entry,false)
-                else prune[#prune+1]={address=address,label=label};live[address]=nil end
-            elseif phase=='prune'then
-                local item=prune[cursor]
-                if not item then phase=nil;prune={}
                 else
-                    if captured[item.address]==item.label then captured[item.address]=nil;captureCount=captureCount-1 end
-                    cursor=cursor+1
+                    -- Pure Lua filtering does not inspect engine objects. Shared
+                    -- style templates already inherit the CDO and need no write.
+                    inlineTemplates={}
+                    for _,entry in ipairs(templates)do if entry.inline then inlineTemplates[#inlineTemplates+1]=entry end end
+                    phase='templates';cursor=1
                 end
+            elseif phase=='templates'then
+                local entry=inlineTemplates[cursor]
+                if entry then updateLabel(entry,true);cursor=cursor+1
+                else beginDiscovery()end
+            elseif phase=='discover'then
+                local batch=batches[batchIndex]
+                if not batch then batches={};batchIndex=1;batchKey=nil;phase='live';key=nil
+                else
+                    local address,label=next(batch,batchKey);batchKey=address
+                    if not address then batchIndex=batchIndex+1
+                    else
+                        -- No new keys are inserted into a frozen batch; removing
+                        -- the consumed key is safe during next() traversal.
+                        batch[address]=nil
+                        captureCount=captureCount-1
+                        local existing=live[address]
+                        if not existing or existing.object~=label then
+                            local owner,world,labelType=target(label)
+                            if owner then
+                                if not existing and liveCount>=LIMIT then overflow=true;return end
+                                local entry=snapshot(label,labelType.rich)
+                                entry.owner=owner;entry.world=world
+                                local t=templateByOwner[labelType.owner] and templateByOwner[labelType.owner][labelType.name]
+                                if t then entry.baseSize=t.baseSize;entry.baseFont=t.baseFont end
+                                live[address]=entry
+                                if not existing then liveCount=liveCount+1 end
+                            elseif world=='defer'then
+                                if not captured[address]then captureCount=captureCount+1;captured[address]=label end
+                            elseif existing then live[address]=nil;liveCount=liveCount-1 end
+                        end
+                    end
+                end
+            elseif phase=='live'then
+                local address,entry=next(live,key);key=address
+                if not address then
+                    phase=nil
+                    if overflow then report('ui-capacity','Open-screen refresh capacity exceeded; restart to reset the cache.');overflow=false end
+                elseif not valid(entry.object) or not valid(entry.owner) or valid(passWorld) and not same(entry.world,passWorld)
+                    or captured[address] and captured[address]~=entry.object then
+                    live[address]=nil
+                    liveCount=liveCount-1
+                elseif valid(passWorld)then updateLabel(entry,false)end
             end
         end)
         if not ok then
-            incomplete=true
-            report('ui-'..phase..'-'..tostring(cursor),'Persistent UI operation failed: '..tostring(err))
-            if phase=='snapshot-templates'then
-                -- The offending label was consumed by next(); continue this tree.
-            else cursor=cursor+1 end
+            if measuredPhase:match('^load') or measuredPhase:match('^snapshot')then needsRecovery=true end
+            report('ui-'..measuredPhase..'-'..tostring(cursor),'Persistent UI operation failed: '..tostring(err))
+            if phase~='snapshot-templates' and phase~='discover' and phase~='live'then cursor=cursor+1 end
         end
         if started then
             local elapsed=os.clock()-started;seconds=seconds+elapsed;maximum=math.max(maximum,elapsed)
-            if not phase then print(string.format('[UIAndSubtitles] persistent-ui reason=%s passes=%d styles=%d templates=%d writes=%d total=%.3fms max-operation=%.3fms\n',reason,passes,#styles,#templates,writes,seconds*1000,maximum*1000))end
+            local timing=measured[measuredPhase] or {count=0,seconds=0}
+            timing.count=timing.count+1;timing.seconds=timing.seconds+elapsed;measured[measuredPhase]=timing
+            if not phase then
+                print(string.format('[UIAndSubtitles] persistent-ui reason=%s passes=%d styles=%d templates=%d labels=%d writes=%d elapsed=%.3fms work=%.3fms max-operation=%.3fms\n',reason,passes,#styles,#templates,liveCount,writes,(os.clock()-requestStarted)*1000,seconds*1000,maximum*1000))
+                for _,name in ipairs({'load-styles','load-widgets','snapshot-styles','snapshot-templates','styles','templates','discover','live'})do
+                    local timing=measured[name]
+                    if timing then print(string.format('[UIAndSubtitles] phase=%s operations=%d work=%.3fms\n',name,timing.count,timing.seconds*1000))end
+                end
+            end
         end
         return loaded
     end

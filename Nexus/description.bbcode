@@ -18,7 +18,7 @@ The two font selectors are independent. Other UI can keep its existing font or u
 
 [size=4][b][color=#E8C88A]Configuration[/color][/b][/size]
 
-Open [b]Mod Settings > UI and Subtitles - Configurable Font and Text Size[/b], change the values and choose [b]Apply[/b]. UI defaults and existing labels update progressively at startup, save loading or Apply. Menus inherit those defaults when opened; large Apply updates may take a few seconds. Reset restores the defaults above; turning Enabled off restores font and size values still controlled by this mod.
+Open [b]Mod Settings > UI and Subtitles - Configurable Font and Text Size[/b], change the values and choose [b]Apply[/b]. Apply reuses completed setup and refreshes existing labels in larger batches after collecting them. Large updates can span several frames. Menus inherit the prepared defaults when opened. Reset restores the defaults above; turning Enabled off restores font and size values still controlled by this mod.
 
 Without the menu, launch the game once, close it and edit [b]Dawnwalker/Binaries/Win64/ue4ss/Mods/UIAndSubtitles/settings.ini[/b]. Restart afterward. The included settings.ini.example lists the available values.
 
