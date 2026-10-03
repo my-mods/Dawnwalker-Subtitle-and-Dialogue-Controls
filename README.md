@@ -25,14 +25,14 @@ Requires UE4SS with Lua 5.4, native UFunction hooks and delayed game-thread call
 
 ## Installation
 
-- Vortex: Install Subtitle-and-Dialogue-Controls.zip through Vortex, enable it and deploy.
+- Vortex: Install UI-and-Subtitles-Configurable-Font-and-Text-Size.zip through Vortex, enable it and deploy.
 - Manual: Copy the archive's Dawnwalker folder into your The Blood of Dawnwalker installation directory, preserving the folder structure.
 
 ## Configuration
 
 Open Mod Settings, select UI and Subtitles - Configurable Font and Text Size, change the values and choose Apply. Visible text updates over the next few frames; new lines receive the same settings. Turning Enabled off restores font and size values still controlled by this mod. Reset restores the defaults above.
 
-Without Mod Settings, launch the game once to create `Dawnwalker/Binaries/Win64/ue4ss/Mods/SubtitleDialogueControls/settings.ini`. Close the game before editing its `[Settings]` section and restart afterward. `subtitlePercent`, `dialoguePercent`, `gameplayPercent` and `uiPercent` accept whole numbers from 25 to 200. `fontFamily = 0` selects vanilla Afacad; `fontFamily = 1` selects Alegreya. `uiFontFamily` uses the same values, plus 2 for Keep current. `enabled` and `debugLogging` use 0 for Off and 1 for On. At startup, an older valid preferences file receives only the missing UI keys with their defaults. Its previous contents are retained in `settings.ini.before-ui-controls`; existing values, comments and other sections are preserved. If a previous upgrade backup or temporary file needs attention, the log reports it instead of overwriting it. The archive does not contain an active settings.ini.
+Without Mod Settings, launch the game once to create `Dawnwalker/Binaries/Win64/ue4ss/Mods/UIAndSubtitles/settings.ini`. Close the game before editing its `[Settings]` section and restart afterward. `subtitlePercent`, `dialoguePercent`, `gameplayPercent` and `uiPercent` accept whole numbers from 25 to 200. `fontFamily = 0` selects vanilla Afacad; `fontFamily = 1` selects Alegreya. `uiFontFamily` uses the same values, plus 2 for Keep current. `enabled` and `debugLogging` use 0 for Off and 1 for On. At startup, an older valid preferences file receives only the missing UI keys with their defaults. Its previous contents are retained in `settings.ini.before-ui-controls`; existing values, comments and other sections are preserved. If a previous upgrade backup or temporary file needs attention, the log reports it instead of overwriting it. The archive does not contain an active settings.ini.
 
 Turn Logging on to record text-processing counts, total and longest update timings, a small sample of target and stored sizes, and font-load start/end timings in `Dawnwalker/Binaries/Win64/ue4ss/UE4SS.log`. Essential capability failures are reported once even with Logging off. Fonts load when a matching text label first needs them. If a font package cannot load, size controls continue using the available font.
 
@@ -44,4 +44,4 @@ The font choice was inspired by WinterElfeas's [Alternative Font - Alegreya](htt
 
 ## Source layout
 
-`src` contains the runtime and settings integration. `assets` contains editable font package templates and the licensed font faces. `package` contains installer metadata and the cooked font containers. Convert the font templates with UAssetGUI, assemble their game-relative paths under `Dawnwalker/Content/SubtitleDialogueControls/Fonts`, and convert the legacy assets with retoc `to-zen --version UE5_5`. Package the matching `.ufont` files at those same paths in the companion `.pak`. Lua files belong under `Dawnwalker/Binaries/Win64/ue4ss/Mods/SubtitleDialogueControls/Scripts`.
+`src` contains the runtime and settings integration. `assets` contains editable font package templates and the licensed font faces. `package` contains installer metadata and the cooked font containers. Convert the font templates with UAssetGUI, assemble their game-relative paths under `Dawnwalker/Content/UIAndSubtitles/Fonts`, and convert the legacy assets with retoc `to-zen --version UE5_5`. Package the matching `.ufont` files at those same paths in the companion `.pak`. Lua files belong under `Dawnwalker/Binaries/Win64/ue4ss/Mods/UIAndSubtitles/Scripts`.

@@ -51,7 +51,7 @@ end
 function M.start(directory,apply,report)
     local ids,defaults={},{}
     for _,row in ipairs(M.schema)do ids[row.key]=row.key;defaults[row.key]=row.default end
-    local live=require('UE4SSDawnwalkerSettings').new({modId='SubtitleDialogueControls',schema=M.schema,ids=ids,report=report})
+    local live=require('UE4SSDawnwalkerSettings').new({modId='UIAndSubtitles',schema=M.schema,ids=ids,report=report})
     live.attach(apply)
     local store=require('SettingsStore')
     local path=store.path(directory)

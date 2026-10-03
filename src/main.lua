@@ -6,7 +6,7 @@ local function report(key,message)
     if message==nil then message=key;key=message end
     if warned[key] or warningCount>=24 then return end
     warned[key]=true;warningCount=warningCount+1
-    print('[SubtitleDialogueControls] '..message..'\n')
+    print('[UIAndSubtitles] '..message..'\n')
 end
 for _,name in ipairs({'ExecuteInGameThread','ExecuteInGameThreadWithDelay','RegisterHook','StaticFindObject','FindFirstOf'})do
     if type(_G[name])~='function' then report(name,'Required UE4SS API missing: '..name);return end
@@ -155,7 +155,7 @@ local function applyLabel(label)
     end
     if cfg.debugLogging==1 and diagnostics.samples<8 and not record.sampled then
         diagnostics.samples=diagnostics.samples+1;record.sampled=true
-        print(string.format('[SubtitleDialogueControls] text=%s group=%s base=%.4f target=%.4f stored=%.4f\n',identity,group,record.baseSize,targetSize,font.Size))
+        print(string.format('[UIAndSubtitles] text=%s group=%s base=%.4f target=%.4f stored=%.4f\n',identity,group,record.baseSize,targetSize,font.Size))
     end
     if cfg.enabled==1 then record.lastSize=targetSize;record.lastFont=targetFont
     else record.lastSize=nil;record.lastFont=nil end
@@ -171,9 +171,9 @@ local function loadFont(selection)
     if selection==nil then return end
     attemptedFonts[selection]=true
     local family=selection==0 and 'Afacad' or 'Alegreya'
-    local path='/Game/SubtitleDialogueControls/Fonts/SDC_'..family..'.SDC_'..family
+    local path='/Game/UIAndSubtitles/Fonts/UIS_'..family..'.UIS_'..family
     local start=cfg.debugLogging==1 and os.clock() or nil
-    if start then print('[SubtitleDialogueControls] font-load begin '..family..'\n')end
+    if start then print('[UIAndSubtitles] font-load begin '..family..'\n')end
     local ok,result=pcall(function()
         if not valid(system) or not valid(fontClass)then error('Font loading functions or Font class unavailable')end
         -- Soft references load unique mounted packages without depending on AssetRegistry entries.
@@ -185,7 +185,7 @@ local function loadFont(selection)
     end)
     if ok then fonts[selection]=result
     else report('font-'..family,'Font selection unavailable; size controls remain active. '..tostring(result))end
-    if start then print(string.format('[SubtitleDialogueControls] font-load end %s success=%s elapsed=%.3fms\n',family,tostring(ok),(os.clock()-start)*1000))end
+    if start then print(string.format('[UIAndSubtitles] font-load end %s success=%s elapsed=%.3fms\n',family,tostring(ok),(os.clock()-start)*1000))end
 end
 local pump
 local function schedule()
@@ -268,7 +268,7 @@ pump=function()
         diagnostics.jobs=diagnostics.jobs+1;diagnostics.seconds=diagnostics.seconds+elapsed;diagnostics.maximum=math.max(diagnostics.maximum,elapsed)
         if queueEmpty() and (diagnostics.last==0 or os.clock()-diagnostics.last>=30)then
             diagnostics.last=os.clock()
-            print(string.format('[SubtitleDialogueControls] jobs=%d writes=%d total=%.3fms max=%.3fms tracked=%d main-buttons=%d\n',diagnostics.jobs,diagnostics.writes,diagnostics.seconds*1000,diagnostics.maximum*1000,recordCount,mainButtonCount))
+            print(string.format('[UIAndSubtitles] jobs=%d writes=%d total=%.3fms max=%.3fms tracked=%d main-buttons=%d\n',diagnostics.jobs,diagnostics.writes,diagnostics.seconds*1000,diagnostics.maximum*1000,recordCount,mainButtonCount))
             diagnostics.jobs=0;diagnostics.writes=0;diagnostics.seconds=0;diagnostics.maximum=0
         end
     end

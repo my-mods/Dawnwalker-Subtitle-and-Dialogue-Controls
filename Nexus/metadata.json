@@ -5,7 +5,7 @@
   "author": "oOCamilleOo",
   "language": "English",
   "version": "0.1.0",
-  "source": "https://github.com/my-mods/Dawnwalker-Subtitle-and-Dialogue-Controls",
+  "source": "https://github.com/my-mods/Dawnwalker-UI-and-Subtitles-Configurable-Font-and-Text-Size",
   "summary": "summary.txt",
   "description": "description.bbcode",
   "permissions": "permissions.txt",
@@ -17,7 +17,7 @@
   "tags": ["User Interface", "Quality of Life", "AI-Generated Content", "AI Media"],
   "file": {
     "displayName": "UI and Subtitles - Configurable Font and Text Size",
-    "filename": "Subtitle-and-Dialogue-Controls.zip",
+    "filename": "UI-and-Subtitles-Configurable-Font-and-Text-Size.zip",
     "version": "0.1.0",
     "category": "main",
     "description": "file-description.txt",

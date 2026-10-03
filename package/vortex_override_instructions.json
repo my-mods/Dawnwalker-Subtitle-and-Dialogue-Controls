@@ -17,11 +17,11 @@
   {
     "type": "attribute",
     "source": "CHANGELOG.md",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -48,11 +48,11 @@
   {
     "type": "attribute",
     "source": "DMM-API-SOURCE.json",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -78,12 +78,12 @@
   },
   {
     "type": "attribute",
-    "source": "Data/SubtitleDialogueControls-Layout.txt",
-    "key": "subtitleDialogueMaterials",
+    "source": "Data/UIAndSubtitles-Layout.txt",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -109,12 +109,12 @@
   },
   {
     "type": "attribute",
-    "source": "Data\\SubtitleDialogueControls-Layout.txt",
-    "key": "subtitleDialogueMaterials",
+    "source": "Data\\UIAndSubtitles-Layout.txt",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -141,11 +141,11 @@
   {
     "type": "attribute",
     "source": "LICENSE.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -172,11 +172,11 @@
   {
     "type": "attribute",
     "source": "LICENSES/Afacad-OFL.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -203,11 +203,11 @@
   {
     "type": "attribute",
     "source": "LICENSES\\Afacad-OFL.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -234,11 +234,11 @@
   {
     "type": "attribute",
     "source": "LICENSES/Alegreya-OFL.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -265,11 +265,11 @@
   {
     "type": "attribute",
     "source": "LICENSES\\Alegreya-OFL.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -296,11 +296,11 @@
   {
     "type": "attribute",
     "source": "LICENSES/dmm-api.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -327,11 +327,11 @@
   {
     "type": "attribute",
     "source": "LICENSES\\dmm-api.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -358,11 +358,11 @@
   {
     "type": "attribute",
     "source": "LICENSES/ue4ss-common.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -389,11 +389,11 @@
   {
     "type": "attribute",
     "source": "LICENSES\\ue4ss-common.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -420,11 +420,11 @@
   {
     "type": "attribute",
     "source": "Nexus/MEDIA-CREDITS.md",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -451,11 +451,11 @@
   {
     "type": "attribute",
     "source": "Nexus\\MEDIA-CREDITS.md",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -482,11 +482,11 @@
   {
     "type": "attribute",
     "source": "Nexus/banner.jpg",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -513,11 +513,11 @@
   {
     "type": "attribute",
     "source": "Nexus\\banner.jpg",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -544,11 +544,11 @@
   {
     "type": "attribute",
     "source": "Nexus/changelog-0.1.0.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -575,11 +575,11 @@
   {
     "type": "attribute",
     "source": "Nexus\\changelog-0.1.0.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -606,11 +606,11 @@
   {
     "type": "attribute",
     "source": "Nexus/description.bbcode",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -637,11 +637,11 @@
   {
     "type": "attribute",
     "source": "Nexus\\description.bbcode",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -668,11 +668,11 @@
   {
     "type": "attribute",
     "source": "Nexus/file-description.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -699,11 +699,11 @@
   {
     "type": "attribute",
     "source": "Nexus\\file-description.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -730,11 +730,11 @@
   {
     "type": "attribute",
     "source": "Nexus/metadata.json",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -761,11 +761,11 @@
   {
     "type": "attribute",
     "source": "Nexus\\metadata.json",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -792,11 +792,11 @@
   {
     "type": "attribute",
     "source": "Nexus/permissions.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -823,11 +823,11 @@
   {
     "type": "attribute",
     "source": "Nexus\\permissions.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -854,11 +854,11 @@
   {
     "type": "attribute",
     "source": "Nexus/summary.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -885,11 +885,11 @@
   {
     "type": "attribute",
     "source": "Nexus\\summary.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -916,11 +916,11 @@
   {
     "type": "attribute",
     "source": "Nexus/thumbnail.jpg",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -947,11 +947,11 @@
   {
     "type": "attribute",
     "source": "Nexus\\thumbnail.jpg",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -978,11 +978,11 @@
   {
     "type": "attribute",
     "source": "README.txt",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -1009,11 +1009,11 @@
   {
     "type": "attribute",
     "source": "RELEASE-NOTES.md",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -1040,11 +1040,11 @@
   {
     "type": "attribute",
     "source": "assets/FONTS.json",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -1071,11 +1071,11 @@
   {
     "type": "attribute",
     "source": "assets\\FONTS.json",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -1102,11 +1102,11 @@
   {
     "type": "attribute",
     "source": "mod.manifest",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -1133,11 +1133,11 @@
   {
     "type": "attribute",
     "source": "settings.ini.example",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -1164,11 +1164,11 @@
   {
     "type": "attribute",
     "source": "ue4ss-common.lock.json",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
@@ -1195,11 +1195,11 @@
   {
     "type": "attribute",
     "source": "vortex_override_instructions.json",
-    "key": "subtitleDialogueMaterials",
+    "key": "uiAndSubtitlesMaterials",
     "value": [
       "CHANGELOG.md",
       "DMM-API-SOURCE.json",
-      "Data/SubtitleDialogueControls-Layout.txt",
+      "Data/UIAndSubtitles-Layout.txt",
       "LICENSE.txt",
       "LICENSES/Afacad-OFL.txt",
       "LICENSES/Alegreya-OFL.txt",
