@@ -4,3 +4,5 @@
 - Choose vanilla Afacad or Alegreya for subtitle and dialogue text.
 - Set the size and font of supported menu, settings, inventory and journal labels independently; other UI defaults to its current appearance.
 - Change settings through Mod Settings or the generated settings.ini.
+- Apply menu text settings to the initial main-menu buttons and keep sizes stable through repeated refreshes.
+- Load selected fonts when text first needs them.

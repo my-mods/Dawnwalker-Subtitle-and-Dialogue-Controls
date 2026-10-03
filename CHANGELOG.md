@@ -7,3 +7,6 @@
 - Add independent size and font controls for supported menu, settings, inventory and journal labels, with Keep current as the UI font default.
 - Retain existing subtitle preferences when the new UI settings are absent.
 - Add live Mod Settings controls, persistent settings and optional logging.
+- Pick up main-menu text at startup, including buttons that keep their initial text.
+- Keep text sizes stable across repeated refreshes and font assignments.
+- Load each selected font when text first needs it.

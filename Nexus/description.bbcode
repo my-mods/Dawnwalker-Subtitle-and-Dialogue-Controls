@@ -22,13 +22,13 @@ Open [b]Mod Settings > UI and Subtitles - Configurable Font and Text Size[/b], c
 
 Without the menu, launch the game once, close it and edit [b]Dawnwalker/Binaries/Win64/ue4ss/Mods/SubtitleDialogueControls/settings.ini[/b]. Restart afterward. The included settings.ini.example lists the available values.
 
-[b]Logging[/b] is optional and off by default. Enable it to write font-loading failures and aggregate update counts and timings to [b]Dawnwalker/Binaries/Win64/ue4ss/UE4SS.log[/b].
+[b]Logging[/b] is optional and off by default. Enable it to write update counts, total and longest update timings, a small sample of text sizes, and font-load start/end timings to [b]Dawnwalker/Binaries/Win64/ue4ss/UE4SS.log[/b]. Fonts load when a matching text label first needs them.
 
 [size=4][b][color=#E8C88A]UI coverage[/color][/b][/size]
 
 Other UI controls affect selected ordinary text labels, including main-menu buttons, settings names and descriptions, inventory quantities and stats, and journal titles and objectives. [b]Rich text, graphical lettering and unlisted widgets keep their existing appearance.[/b] Panels are not resized or rearranged.
 
-Reopen or refresh a menu after changing its settings. Restart the game if a cached screen retains its previous appearance. Very large text may exceed the space available in the game's layout.
+Main-menu buttons are picked up at startup and update on Apply. Reopen or refresh other screens after changing their settings. Restart the game if a cached screen retains its previous appearance. Very large text may exceed the space available in the game's layout.
 
 [size=4][b][color=#E8C88A]Installation[/color][/b][/size]
 

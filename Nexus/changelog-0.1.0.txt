@@ -2,3 +2,6 @@ Independent cinematic subtitle, dialogue choice and gameplay subtitle sizes.
 Vanilla Afacad and Alegreya font selection for subtitle and dialogue text.
 Separate size and font controls for supported menu, settings, inventory and journal labels.
 Live Mod Settings controls, persistent preferences and optional logging.
+Main-menu text settings apply to the initial buttons.
+Text sizes stay stable through repeated refreshes and font assignments.
+Selected fonts load when text first needs them.

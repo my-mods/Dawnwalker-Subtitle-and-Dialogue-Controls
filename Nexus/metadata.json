@@ -33,7 +33,7 @@
         {"url": "https://www.nexusmods.com/thebloodofdawnwalker/mods/18", "testedExample": "Vercadi RC6"},
         {"url": "https://www.nexusmods.com/thebloodofdawnwalker/mods/283", "testedExample": "Framecore 2b"}
       ],
-      "notes": "Install one compatible package. Requires Lua 5.4, native UFunction hooks and delayed game-thread callbacks. Blueprint execution hooks are not required."
+      "notes": "Install one compatible package. Requires Lua 5.4, native UFunction hooks and delayed game-thread callbacks. Main-menu startup detection uses NotifyOnNewObject. Blueprint execution hooks are not required."
     },
     {
       "name": "Mod Setting Menu",
