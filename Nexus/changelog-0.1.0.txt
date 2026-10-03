@@ -5,3 +5,6 @@ Live Mod Settings controls, persistent preferences and optional logging.
 Main-menu text settings apply to the initial buttons.
 Text sizes stay stable through repeated refreshes and font assignments.
 Selected fonts load when text first needs them.
+
+Extend Other UI to inventory names and descriptions, glossary body text, court text and additional hub labels.
+Apply settings to static text and large screens without leaving most labels at their previous size.

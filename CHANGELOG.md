@@ -10,3 +10,6 @@
 - Pick up main-menu text at startup, including buttons that keep their initial text.
 - Keep text sizes stable across repeated refreshes and font assignments.
 - Load each selected font when text first needs it.
+
+- Extend Other UI to inventory names and descriptions, glossary body text, court text and additional hub labels.
+- Apply settings to static text and large screens without leaving most labels at their previous size.

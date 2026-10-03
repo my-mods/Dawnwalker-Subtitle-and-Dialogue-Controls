@@ -9,7 +9,7 @@ Make cinematic subtitles smaller without shrinking your dialogue choices. Adjust
 [*][b][color=#A8D5C2]Dialogue choices:[/color][/b] Response choices and their quantity labels. Default: 100%.
 [*][b][color=#A8D5C2]Gameplay subtitles:[/color][/b] Bottom-screen, accessibility and overhead NPC lines. The game's distance scaling remains active. Default: 100%.
 [*][b][color=#A8D5C2]Subtitle and dialogue font:[/color][/b] Vanilla Afacad or Alegreya. Default: Alegreya.
-[*][b][color=#A8D5C2]Other UI text:[/color][/b] Separate size and font controls for supported labels in menus, settings, inventory, stats, item tooltips and the journal. Default: 100%, with Keep current as the font choice.
+[*][b][color=#A8D5C2]Other UI text:[/color][/b] Separate size and font controls for supported labels in menus, settings, inventory descriptions, stats, the glossary, court and the journal. Default: 100%, with Keep current as the font choice.
 [/list]
 
 Each size control ranges from [b]25% to 200%[/b], in 5% menu steps. Percentages use the label's original size, including any style supplied by another mod. 100% keeps that size.
@@ -18,7 +18,7 @@ The two font selectors are independent. Other UI can keep its existing font or u
 
 [size=4][b][color=#E8C88A]Configuration[/color][/b][/size]
 
-Open [b]Mod Settings > UI and Subtitles - Configurable Font and Text Size[/b], change the values and choose [b]Apply[/b]. Visible tracked text updates over the next few frames. Reset restores the defaults above; turning Enabled off restores font and size values still controlled by this mod.
+Open [b]Mod Settings > UI and Subtitles - Configurable Font and Text Size[/b], change the values and choose [b]Apply[/b]. Cached text updates progressively; large screens may take a few seconds. Reset restores the defaults above; turning Enabled off restores font and size values still controlled by this mod.
 
 Without the menu, launch the game once, close it and edit [b]Dawnwalker/Binaries/Win64/ue4ss/Mods/UIAndSubtitles/settings.ini[/b]. Restart afterward. The included settings.ini.example lists the available values.
 
@@ -26,9 +26,7 @@ Without the menu, launch the game once, close it and edit [b]Dawnwalker/Binaries
 
 [size=4][b][color=#E8C88A]UI coverage[/color][/b][/size]
 
-Other UI controls affect selected ordinary text labels, including main-menu buttons, settings names and descriptions, inventory quantities and stats, and journal titles and objectives. [b]Rich text, graphical lettering and unlisted widgets keep their existing appearance.[/b] Panels are not resized or rearranged.
-
-Main-menu buttons are picked up at startup and update on Apply. Reopen or refresh other screens after changing their settings. Restart the game if a cached screen retains its previous appearance. Very large text may exceed the space available in the game's layout.
+Other UI controls cover main-menu and title-screen text, settings, inventory names and descriptions, item tooltips, stats, the glossary, court, crafting, character development and the journal. Static and bound text is picked up at creation and cached text updates on Apply. Rich-text body text is supported; explicitly styled spans and inline icons retain their separate styles. Graphical lettering and unlisted widgets keep their existing appearance. Panels are not resized or rearranged. Very large text may exceed the space available in the game's layout.
 
 [size=4][b][color=#E8C88A]Installation[/color][/b][/size]
 
