@@ -13,15 +13,15 @@ Adjust cinematic subtitles, dialogue choices, gameplay subtitles and supported i
 | Other UI font | Keep current | Keep current / Vanilla (Afacad) / Alegreya |
 | Logging | Off | Off / On |
 
-Sizes are percentages of each widget's original size, including any text style supplied by another mod. At 100%, the original size is retained. Cinematic size covers spoken lines, speaker names and movie subtitles. Dialogue choice size covers response choices and their quantity labels. Gameplay size covers bottom-screen lines, accessibility lines and overhead NPC subtitles. Distance scaling and dialogue effects remain controlled by the game. Extremely large text may exceed the game's layout space.
+Sizes are percentages of the original text style or widget size, including any text style supplied by another mod. At 100%, the original size is retained. Cinematic size covers spoken lines, speaker names and movie subtitles. Dialogue choice size covers response choices and their quantity labels. Gameplay size covers bottom-screen lines, accessibility lines and overhead NPC subtitles. Distance scaling and dialogue effects remain controlled by the game. Extremely large text may exceed the game's layout space.
 
-Other UI controls cover main-menu and title-screen text, settings, inventory names and descriptions, item tooltips, stats, the glossary, court, crafting, character development and the journal. Static and bound labels are detected when their widgets are created, and cached labels update on Apply. Rich-text body text uses its own font override; explicitly styled spans and inline icons retain their separate styles. Graphical lettering and unlisted widgets keep their existing appearance. These controls do not resize entire panels or rearrange layouts.
+Other UI controls cover main-menu and title-screen text, settings, inventory names and descriptions, item tooltips, stats, the glossary, court, crafting, character development and the journal. UI styles and widget defaults are prepared at game startup, save loading and settings changes. Opening a menu inherits those defaults without running another scaling pass. Shared UI styles also affect other labels that use them. Rich-text body text is supported; separately authored spans and inline icons can retain their own formatting. Graphical lettering is unchanged. These controls do not resize entire panels or rearrange layouts.
 
 The two font selectors are independent. Other UI starts at 100% with Keep current, preserving its existing font. Both font families are included under unique asset paths, so Alternative Font - Alegreya can remain enabled for the rest of the interface. It is not required by this mod. Language-specific fallback faces continue to come from the game.
 
 ## Dependencies
 
-Requires UE4SS with Lua 5.4, native UFunction hooks and delayed game-thread callbacks, such as Vercadi UE4SS RC6 or Framecore UE4SS 2b. Startup and static-text detection also use NotifyOnNewObject. Blueprint execution hooks are not required. Dawnwalker Mod Menu 1.0.6 or later is optional for the in-game controls and live Apply; its console bridge requires HookProcessConsoleExec to be enabled in UE4SS.
+Requires UE4SS with Lua 5.4, native UFunction hooks and delayed game-thread callbacks, such as Vercadi UE4SS RC6 or Framecore UE4SS 2b. Persistent UI defaults also require StaticConstructObject and reflected object arrays. NotifyOnNewObject retains existing labels for the next Apply; it does not apply settings when menus open. Blueprint execution hooks are not required. Dawnwalker Mod Menu 1.0.6 or later is optional for the in-game controls and live Apply; its console bridge requires HookProcessConsoleExec to be enabled in UE4SS.
 
 ## Installation
 
@@ -30,11 +30,11 @@ Requires UE4SS with Lua 5.4, native UFunction hooks and delayed game-thread call
 
 ## Configuration
 
-Open Mod Settings, select UI and Subtitles - Configurable Font and Text Size, change the values and choose Apply. Text updates progressively after Apply; large screens may take a few seconds. New lines receive the same settings. Turning Enabled off restores font and size values still controlled by this mod. Reset restores the defaults above.
+Open Mod Settings, select UI and Subtitles - Configurable Font and Text Size, change the values and choose Apply. UI defaults and existing labels update progressively after startup, save loading or Apply; a large screen may take a few seconds. Subsequent menu openings inherit the prepared defaults. Independent subtitle controls still respond when the game creates or restyles spoken lines. Turning Enabled off restores font and size values still controlled by this mod. Reset restores the defaults above.
 
 Without Mod Settings, launch the game once to create `Dawnwalker/Binaries/Win64/ue4ss/Mods/UIAndSubtitles/settings.ini`. Close the game before editing its `[Settings]` section and restart afterward. `subtitlePercent`, `dialoguePercent`, `gameplayPercent` and `uiPercent` accept whole numbers from 25 to 200. `fontFamily = 0` selects vanilla Afacad; `fontFamily = 1` selects Alegreya. `uiFontFamily` uses the same values, plus 2 for Keep current. `enabled` and `debugLogging` use 0 for Off and 1 for On. At startup, an older valid preferences file receives only the missing UI keys with their defaults. Its previous contents are retained in `settings.ini.before-ui-controls`; existing values, comments and other sections are preserved. If a previous upgrade backup or temporary file needs attention, the log reports it instead of overwriting it. The archive does not contain an active settings.ini.
 
-Turn Logging on to record text-processing counts, total and longest update timings, a small sample of target and stored sizes, and font-load start/end timings in `Dawnwalker/Binaries/Win64/ue4ss/UE4SS.log`. Essential capability failures are reported once even with Logging off. Fonts load when a matching text label first needs them. If a font package cannot load, size controls continue using the available font.
+Turn Logging on to record UI preparation reasons, style/template counts, writes, operation timings, subtitle update counts and font-load timings in `Dawnwalker/Binaries/Win64/ue4ss/UE4SS.log`. Essential capability failures are reported once even with Logging off. Selected fonts load during startup or settings changes and are retained for the session. If a font package cannot load, size controls continue using the available font.
 
 ## Credits
 

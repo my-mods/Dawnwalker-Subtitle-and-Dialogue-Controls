@@ -17,29 +17,22 @@ local function numeric(n)return type(n)=='number' and n==n and math.abs(n)<math.
 -- SlateFontInfo.Size is float32; journal the same value the engine will store.
 -- Comparing a Lua double target with its float32 result would scale it again.
 local function fontSize(n)return string.unpack('f',string.pack('f',n))end
-local names,classes,uiNames,uiOwners={},{},{},{}
-local richClasses={}
+local ui=require('PersistentUI').new(report)
+local names,classes={},{}
 local LIMIT=8192
-local richReady=false
 local engine,system,fontClass
 local fonts,attemptedFonts,wantedFonts={},{},{}
 local enqueue
 local hooks,records,pending={},{},{}
-local queues={{first=1,last=0,items={}},{first=1,last=0,items={}}}
-local constructions={first=1,last=0,items={}}
-local constructionWake=false
+local queue={first=1,last=0,items={}}
 local worker,writing,refreshFont=false,false,false
-local recordCount,uiRecordCount=0,0
-local observed,observedCount={},0
+local recordCount=0
 local observeText
 local revisiting=false
 local revisitKey
-local revisitPhase=1
-local lastWasConstruction=false
 local currentWorld
 local diagnostics={jobs=0,writes=0,seconds=0,maximum=0,last=0,samples=0}
-local function uiActive()return cfg.uiPercent~=100 or cfg.uiFontFamily~=2 end
-local function queueEmpty()return queues[1].first>queues[1].last and queues[2].first>queues[2].last and constructions.first>constructions.last and not revisiting end
+local function queueEmpty()return queue.first>queue.last and not revisiting and not ui.busy() end
 local function worldNow()
     if not valid(engine)then return valid(currentWorld) and currentWorld or nil end
     local viewport=engine.GameViewport
@@ -49,15 +42,14 @@ local function classId(o)return o:GetClass():GetFName():GetComparisonIndex()end
 local function classify(label)
     if not valid(label) or label:HasAnyFlags(0x30) then return end -- CDO/archetype
     local name=label:GetFName():GetComparisonIndex()
-    if not names[name] and not uiNames[name]then return end
+    if not names[name]then return end
     local tree=label:GetOuter()
     if not valid(tree)then return end
     local owner=tree:GetOuter()
     if not valid(owner) or owner:HasAnyFlags(0x30)then return end
     local ownerId=classId(owner)
     local kind=classes[ownerId]
-    local ui=uiOwners[ownerId]
-    if not kind and not (ui and ui[name])then return end
+    if not kind then return end
     local group
     if kind=='choice' and (names[name]=='ChoiceLabel' or names[name]=='QuantityLabel')then group='dialoguePercent'
     elseif kind=='movie' and names[name]=='SubtitleLabel'then group='subtitlePercent'
@@ -75,17 +67,13 @@ local function classify(label)
             end
         end
     end
-    if not group and ui and ui[name]then group='uiPercent'end
     if not group then return end
-    if group=='uiPercent' and classId(label)~=ui[name]then return end
-    if richClasses[classId(label)] and not richReady then return end
     local w=label:GetWorld()
     if not same(w,worldNow()) or not same(owner:GetWorld(),w)then return end
     return owner,w,group
 end
 local function removeRecord(address)
     if records[address]then
-        if records[address].group=='uiPercent'then uiRecordCount=uiRecordCount-1 end
         records[address]=nil;recordCount=recordCount-1
     end
 end
@@ -100,38 +88,33 @@ local function applyLabel(label)
         removeRecord(address);record=nil
     end
     if cfg.enabled~=1 and not record then return end
-    local isUI=group=='uiPercent'
-    if isUI and not uiActive() and not record then return end
     -- Font is borrowed from the widget. Never retain this struct beyond this operation.
-    local rich=richClasses[classId(label)]
-    local override=rich and label.bOverrideDefaultStyle==true
-    local font=rich and (override and label.DefaultTextStyleOverride.Font or label.DefaultTextStyle.Font) or label.Font
+    local font=label.Font
     local size,fontObject=font.Size,font.FontObject
+    local styleSize,styleFont=ui.originalFont(label.Style,size,fontObject)
     if not numeric(size) or size<=0 or not valid(fontObject)then
         report('font-layout','A target widget has an unsupported font; that widget is unchanged.');return
     end
     if not record then
-        local count=isUI and uiRecordCount or recordCount-uiRecordCount
-        if count>=LIMIT then report(isUI and 'ui-record-limit' or 'record-limit','Target cache is full; additional widgets are unchanged until a later text event.');return end
-        record={label=label,owner=owner,world=world,identity=identity,group=group,baseSize=size,baseFont=fontObject,rich=rich,baseOverride=override}
+        if recordCount>=LIMIT then report('record-limit','Subtitle cache is full; additional lines are unchanged until a later text event.');return end
+        record={label=label,owner=owner,world=world,identity=identity,group=group,baseSize=styleSize or size,baseFont=styleFont or fontObject}
         records[address]=record;recordCount=recordCount+1
-        if isUI then uiRecordCount=uiRecordCount+1 end
     else
         record.group=group
         -- Reassigning our existing result is idempotent, even through SetFont.
-        if record.lastSize and size~=record.lastSize then record.baseSize=size end
-        if record.lastFont and not same(fontObject,record.lastFont)then record.baseFont=fontObject end
-        if not record.lastSize then record.baseSize=size end
-        if not record.lastFont then record.baseFont=fontObject end
+        if record.lastSize and size~=record.lastSize then record.baseSize=styleSize or size end
+        if record.lastFont and not same(fontObject,record.lastFont)then record.baseFont=styleFont or fontObject end
+        if not record.lastSize then record.baseSize=styleSize or size end
+        if not record.lastFont then record.baseFont=styleFont or fontObject end
     end
     local targetSize,targetFont=size,fontObject
     if cfg.enabled==1 then
         targetSize=fontSize(math.max(6,math.min(192,math.floor(record.baseSize*cfg[group]/10+0.5)/10)))
-        local family=isUI and cfg.uiFontFamily or cfg.fontFamily
+        local family=cfg.fontFamily
         local selected=fonts[family]
         if family~=2 and not valid(selected) and not attemptedFonts[family]then
             -- Load only a font needed by an observed target, in its own worker slice.
-            wantedFonts[family]=true;refreshFont=true;enqueue(label,isUI);return
+            wantedFonts[family]=true;refreshFont=true;enqueue(label);return
         end
         if family==2 then
             if valid(record.baseFont)then targetFont=record.baseFont end
@@ -146,28 +129,22 @@ local function applyLabel(label)
         writing=true
         local ok,err=pcall(function()
             font.Size=targetSize;font.FontObject=targetFont
-            if rich then
-                label:SetDefaultFont(font)
-                -- SetDefaultFont copies into the widget's override. Leave the
-                -- original default style intact when it supplied the input.
-                if not override then font.Size=size;font.FontObject=fontObject end
-            else label:SetFont(font)end
+            label:SetFont(font)
         end)
         writing=false
         if not ok then
             font.Size=size;font.FontObject=fontObject
-            pcall(function()writing=true;if rich then label:SetDefaultFont(font)else label:SetFont(font)end end);writing=false
+            pcall(function()writing=true;label:SetFont(font)end);writing=false
             report('setfont','Font update failed: '..tostring(err));return
         end
         if cfg.debugLogging==1 then diagnostics.writes=diagnostics.writes+1 end
     end
     if cfg.debugLogging==1 and diagnostics.samples<8 and not record.sampled then
         diagnostics.samples=diagnostics.samples+1;record.sampled=true
-        print(string.format('[UIAndSubtitles] text=%s group=%s base=%.4f target=%.4f stored=%.4f\n',identity,group,record.baseSize,targetSize,rich and label.DefaultTextStyleOverride.Font.Size or font.Size))
+        print(string.format('[UIAndSubtitles] text=%s group=%s base=%.4f target=%.4f stored=%.4f\n',identity,group,record.baseSize,targetSize,font.Size))
     end
     if cfg.enabled==1 then record.lastSize=targetSize;record.lastFont=targetFont
     else record.lastSize=nil;record.lastFont=nil end
-    if isUI and (cfg.enabled~=1 or not uiActive())then removeRecord(address)end
 end
 local function neededFont()
     if cfg.enabled~=1 then return end
@@ -189,6 +166,7 @@ local function loadFont(selection)
         local reference=system:Conv_SoftObjPathToSoftObjRef(softPath)
         local object=system:LoadAsset_Blocking(reference)
         assert(valid(object) and object:IsA(fontClass),'Font package missing or invalid: '..family)
+        pcall(ui.pin,object)
         return object
     end)
     if ok then fonts[selection]=result
@@ -197,16 +175,16 @@ local function loadFont(selection)
 end
 local pump
 local function schedule()
-    if worker or constructionWake or (queueEmpty() and not refreshFont)then return end
+    if worker or (queueEmpty() and not refreshFont)then return end
     worker=true
     ExecuteInGameThreadWithDelay(16,pump)
 end
-enqueue=function(label,isUI)
+enqueue=function(label)
     if not valid(label)then return end
     local address=label:GetAddress()
     if pending[address]then return end
-    local q=queues[isUI and 2 or 1]
-    if q.last-q.first+1>=LIMIT then report(isUI and 'ui-queue-limit' or 'queue-limit','Text event burst exceeds the queue budget; skipped labels retry on their next event.');return end
+    local q=queue
+    if q.last-q.first+1>=LIMIT then report('queue-limit','Text event burst exceeds the queue budget; skipped labels retry on their next event.');return end
     local item={label=label,address=address}
     pending[address]=item;q.last=q.last+1;q.items[q.last]=item
     schedule()
@@ -215,76 +193,24 @@ observeText=function(label)
     if not valid(label) or label:HasAnyFlags(0x30)then return end
     local owner,world,group=classify(label)
     if not owner then return end
-    if group~='uiPercent'then enqueue(label,false);return end
-    local address=label:GetAddress()
-    if not observed[address]then
-        if observedCount>=LIMIT then report('observed-limit','Text discovery capacity exceeded. Reopen the affected screen after loading.');return end
-        observedCount=observedCount+1
-    end
-    observed[address]={label=label,world=world}
-    enqueue(label,group=='uiPercent')
+    enqueue(label)
 end
--- Capture label creation, including native text bindings and static text. No
--- UObject access is performed by the construction callback; readiness and all
--- properties are checked in registered game-thread callbacks later.
-if type(NotifyOnNewObject)=='function'then
-    for _,path in ipairs({
-        -- Notifications include derived classes; one registration per base avoids
-        -- receiving the same DWW/CommonUI object three times during construction.
-        '/Script/UMG.TextBlock','/Script/UMG.RichTextBlock',
-    })do
-        local ok,err=pcall(NotifyOnNewObject,path,function(label)
-            if constructions.last-constructions.first+1>=LIMIT then return end
-            constructions.last=constructions.last+1
-            constructions.items[constructions.last]={label=label,attempt=1}
-            if worker or constructionWake then return end
-            constructionWake=true
-            ExecuteInGameThread(function()constructionWake=false;schedule()end)
-        end)
-        if not ok then report('notify-'..path,'Text construction discovery unavailable: '..tostring(err))end
-    end
-else report('notify','Text construction notifications unavailable; text events remain active.')end
 local function step()
     if refreshFont then loadFont(neededFont());refreshFont=neededFont()~=nil;return true
-    elseif queues[1].first>queues[1].last and constructions.first<=constructions.last
-        and (not lastWasConstruction or queues[2].first>queues[2].last)
-        and (not constructions.items[constructions.first].due or constructions.items[constructions.first].due<=os.clock())then
-        lastWasConstruction=true
-        local item=constructions.items[constructions.first]
-        constructions.items[constructions.first]=nil;constructions.first=constructions.first+1
-        if constructions.first>constructions.last then constructions.first=1;constructions.last=0 end
-        local ok,err=pcall(function()
-            if not valid(item.label) or item.label:HasAnyFlags(0x30)then return end
-            local name=item.label:GetFName():GetComparisonIndex()
-            if not names[name] and not uiNames[name]then return end
-            observeText(item.label)
-            -- Two finite settling passes cover synchronization after creation.
-            -- The engine can initialize bound/style text without a reflected event.
-            if item.attempt<3 then
-                item.attempt=item.attempt+1
-                item.due=os.clock()+0.1
-                if constructions.last-constructions.first+1<LIMIT then
-                    constructions.last=constructions.last+1;constructions.items[constructions.last]=item
-                end
-            end
-        end)
-        if not ok then report('construction','Text discovery stopped: '..tostring(err))end
-    elseif queues[1].first<=queues[1].last or queues[2].first<=queues[2].last then
-        lastWasConstruction=false
-        local q=queues[1].first<=queues[1].last and queues[1] or queues[2]
+    elseif queue.first<=queue.last then
+        local q=queue
         local item=q.items[q.first];q.items[q.first]=nil;q.first=q.first+1;pending[item.address]=nil
         local ok,err=pcall(applyLabel,item.label)
         if not ok then report('widget','Widget update stopped: '..tostring(err))end
         if q.first>q.last then q.first=1;q.last=0 end
+    elseif ui.busy()then return ui.step()
     elseif revisiting then
-        local entries=revisitPhase==1 and observed or records
-        local key,item=next(entries,revisitKey);revisitKey=key
+        local key,item=next(records,revisitKey);revisitKey=key
         if key==nil then
-            if revisitPhase==1 then revisitPhase=2 else revisiting=false end
+            revisiting=false
         elseif not valid(item.label) or not same(item.world,worldNow())then
-            if observed[key]then observed[key]=nil;observedCount=observedCount-1 end
             removeRecord(key)
-        elseif revisitPhase==1 or item.group~='uiPercent'then enqueue(item.label,revisitPhase==1)end
+        else enqueue(item.label)end
     end
     return false
 end
@@ -307,7 +233,7 @@ pump=function()
         diagnostics.jobs=diagnostics.jobs+1;diagnostics.seconds=diagnostics.seconds+elapsed;diagnostics.maximum=math.max(diagnostics.maximum,elapsed)
         if queueEmpty() and (diagnostics.last==0 or os.clock()-diagnostics.last>=30)then
             diagnostics.last=os.clock()
-            print(string.format('[UIAndSubtitles] jobs=%d writes=%d total=%.3fms max=%.3fms tracked=%d discovered=%d\n',diagnostics.jobs,diagnostics.writes,diagnostics.seconds*1000,diagnostics.maximum*1000,recordCount,observedCount))
+            print(string.format('[UIAndSubtitles] jobs=%d writes=%d total=%.3fms max=%.3fms tracked-subtitles=%d\n',diagnostics.jobs,diagnostics.writes,diagnostics.seconds*1000,diagnostics.maximum*1000,recordCount))
             diagnostics.jobs=0;diagnostics.writes=0;diagnostics.seconds=0;diagnostics.maximum=0
         end
     end
@@ -320,10 +246,13 @@ local function configure(snapshot)
     if cfg.debugLogging==1 then
         print(string.format('[UIAndSubtitles] settings enabled=%d cinematic=%d dialogue=%d gameplay=%d other-ui=%d ui-font=%d\n',cfg.enabled,cfg.subtitlePercent,cfg.dialoguePercent,cfg.gameplayPercent,cfg.uiPercent,cfg.uiFontFamily))
     end
-    if cfg.enabled==1 then refreshFont=true;attemptedFonts={};wantedFonts={} end
-    -- Visit cached labels incrementally; Apply cannot fill a small queue and
-    -- discard the rest of a large inventory/journal screen.
-    revisiting=true;revisitKey=nil;revisitPhase=1
+    if cfg.enabled==1 then
+        refreshFont=true;attemptedFonts={};wantedFonts={[cfg.fontFamily]=true}
+        if cfg.uiFontFamily~=2 then wantedFonts[cfg.uiFontFamily]=true end
+    end
+    ui.request(cfg,'settings')
+    -- Revisit independent subtitle records after the persistent UI pass.
+    revisiting=true;revisitKey=nil
     schedule()
 end
 local function install(path,signature)
@@ -343,7 +272,7 @@ local function install(path,signature)
                 -- FName indices reject unrelated text before any tree traversal or string building.
                 if not valid(label)then return end
                 local name=label:GetFName():GetComparisonIndex()
-                if names[name] or (uiActive() and uiNames[name])then
+                if names[name]then
                     for _,family in ipairs({cfg.fontFamily,cfg.uiFontFamily})do
                         if fonts[family] and not valid(fonts[family])then
                             fonts[family]=nil;attemptedFonts[family]=nil;refreshFont=true
@@ -363,26 +292,18 @@ local function installTextHooks()
     install('/Script/UMG.TextBlock:SetText',{{'InText','TextProperty'}})
     install('/Script/UMG.TextBlock:SetFont',{{'InFontInfo','StructProperty'}})
     install('/Script/CommonUI.CommonTextBlock:SetStyle',{{'InStyle','ClassProperty'}})
-    install('/Script/UMG.RichTextBlock:SetText',{{'InText','TextProperty'}})
-    install('/Script/UMG.RichTextBlock:SetDefaultFont',{{'InFontInfo','StructProperty'}})
-    richReady=hooks['/Script/UMG.RichTextBlock:SetDefaultFont']~=nil
 end
 ExecuteInGameThread(function()
     local ok,err=pcall(function()
         for _,name in ipairs({'LineLabel','NameLabel','SubtitleLabel','ChoiceLabel','QuantityLabel'})do names[FName(name):GetComparisonIndex()]=name end
-        for _,name in ipairs({'DWW_RichText_C','RichTextBlock','CommonRichTextBlock'})do richClasses[FName(name):GetComparisonIndex()]=true end
-        for owner,labels in pairs(require('UITargets'))do
-            local allow={}
-            for name,textClass in pairs(labels)do
-                local id=FName(name):GetComparisonIndex();uiNames[id]=true;allow[id]=FName(textClass):GetComparisonIndex()
-            end
-            uiOwners[FName(owner):GetComparisonIndex()]=allow
-        end
         for name,kind in pairs({WBP_Dialogue_Line_C='line',WBP_Accessibility_Dialogue_Line_C='accessibility',WBP_MovieSubtitle_C='movie',WBP_GameplayDialogue_OverheadSubtitle_C='overhead',WBP_Dialogue_ChoiceBox_Line_C='choice',WBP_Dialogue_ChoiceBox_Line_Shrine_C='choice',WBP_Dialogue_C='cinematicRoot',WBP_Dialogue_Shrine_C='cinematicRoot',WBP_GameplayDialogue_HUD_C='gameplayRoot'})do classes[FName(name):GetComparisonIndex()]=kind end
         engine=FindFirstOf('Engine')
         system=StaticFindObject('/Script/Engine.Default__KismetSystemLibrary')
         fontClass=StaticFindObject('/Script/Engine.Font')
+        local ready,problem=pcall(ui.initialize,system,fonts,worldNow)
+        if not ready then report('ui-startup','Persistent UI initialization unavailable: '..tostring(problem))end
         require('Settings').start(directory,configure,report)
+        ui.request(cfg,'startup')
         installTextHooks()
         local success,problem=pcall(function()
             local a,b=RegisterHook('/Script/Engine.PlayerController:ClientRestart',function()end,function(context)
@@ -390,13 +311,16 @@ ExecuteInGameThread(function()
                     local pc=context:get()
                     if not valid(pc) or pc:IsLocalController()~=true then return end
                     currentWorld=pc:GetWorld()
-                    revisiting=true;revisitKey=nil;revisitPhase=1
+                    revisiting=true;revisitKey=nil
                     -- A verified player lifecycle event can recover startup capabilities once.
                     if not valid(engine)then engine=FindFirstOf('Engine')end
                     if not valid(system)then system=StaticFindObject('/Script/Engine.Default__KismetSystemLibrary')end
                     if not valid(fontClass)then fontClass=StaticFindObject('/Script/Engine.Font')end
                     installTextHooks()
-                    attemptedFonts={};wantedFonts={};refreshFont=cfg.enabled==1
+                    pcall(ui.initialize,system,fonts,worldNow)
+                    ui.request(cfg,'load')
+                    attemptedFonts={};wantedFonts={[cfg.fontFamily]=true};refreshFont=cfg.enabled==1
+                    if cfg.uiFontFamily~=2 then wantedFonts[cfg.uiFontFamily]=true end
                     schedule()
                 end)
                 if not recovered then report('restart-event','Player lifecycle recovery stopped: '..tostring(failure))end
@@ -405,6 +329,8 @@ ExecuteInGameThread(function()
             hooks.restart={a,b}
         end)
         if not success then report('restart','Player lifecycle recovery unavailable: '..tostring(problem))end
+        wantedFonts[cfg.fontFamily]=true
+        if cfg.uiFontFamily~=2 then wantedFonts[cfg.uiFontFamily]=true end
         refreshFont=cfg.enabled==1;schedule()
     end)
     if not ok then report('startup','Startup stopped: '..tostring(err))end

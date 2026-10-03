@@ -1,5 +1,5 @@
 -- Verified text exports in menu, settings and game-hub widget trees.
--- Both bound/static labels and reflected text updates are supported.
+-- Templates are prepared at load/Apply; instances inherit their defaults.
 return {
     DWW_Button_C={['Label']='DWW_Text_C'},
     DWW_CommonActionButton_C={['Text_ActionName']='CommonTextBlock'},

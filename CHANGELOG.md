@@ -9,7 +9,7 @@
 - Add live Mod Settings controls, persistent settings and optional logging.
 - Pick up main-menu text at startup, including buttons that keep their initial text.
 - Keep text sizes stable across repeated refreshes and font assignments.
-- Load each selected font when text first needs it.
-
+- Prepare selected fonts at startup or settings changes.
 - Extend Other UI to inventory names and descriptions, glossary body text, court text and additional hub labels.
 - Apply settings to static text and large screens without leaving most labels at their previous size.
+- Keep menu text settings ready between openings; apply changes at game load or when settings change.

@@ -18,15 +18,15 @@ The two font selectors are independent. Other UI can keep its existing font or u
 
 [size=4][b][color=#E8C88A]Configuration[/color][/b][/size]
 
-Open [b]Mod Settings > UI and Subtitles - Configurable Font and Text Size[/b], change the values and choose [b]Apply[/b]. Cached text updates progressively; large screens may take a few seconds. Reset restores the defaults above; turning Enabled off restores font and size values still controlled by this mod.
+Open [b]Mod Settings > UI and Subtitles - Configurable Font and Text Size[/b], change the values and choose [b]Apply[/b]. UI defaults and existing labels update progressively at startup, save loading or Apply. Menus inherit those defaults when opened; large Apply updates may take a few seconds. Reset restores the defaults above; turning Enabled off restores font and size values still controlled by this mod.
 
 Without the menu, launch the game once, close it and edit [b]Dawnwalker/Binaries/Win64/ue4ss/Mods/UIAndSubtitles/settings.ini[/b]. Restart afterward. The included settings.ini.example lists the available values.
 
-[b]Logging[/b] is optional and off by default. Enable it to write update counts, total and longest update timings, a small sample of text sizes, and font-load start/end timings to [b]Dawnwalker/Binaries/Win64/ue4ss/UE4SS.log[/b]. Fonts load when a matching text label first needs them.
+[b]Logging[/b] is optional and off by default. Enable it to write UI preparation reasons, style and template counts, update timings and font-load timings to [b]Dawnwalker/Binaries/Win64/ue4ss/UE4SS.log[/b]. Selected fonts load at startup or settings changes.
 
 [size=4][b][color=#E8C88A]UI coverage[/color][/b][/size]
 
-Other UI controls cover main-menu and title-screen text, settings, inventory names and descriptions, item tooltips, stats, the glossary, court, crafting, character development and the journal. Static and bound text is picked up at creation and cached text updates on Apply. Rich-text body text is supported; explicitly styled spans and inline icons retain their separate styles. Graphical lettering and unlisted widgets keep their existing appearance. Panels are not resized or rearranged. Very large text may exceed the space available in the game's layout.
+Other UI controls cover main-menu and title-screen text, settings, inventory names and descriptions, item tooltips, stats, the glossary, court, crafting, character development and the journal. UI styles and widget defaults are prepared at game load or settings changes, so opening a menu does not trigger another scaling pass. Shared UI styles also affect other labels that use them. Rich-text bodies are supported; separately authored spans and inline icons can retain their own formatting. Graphical lettering is unchanged. Panels are not resized or rearranged. Very large text may exceed the space available in the game's layout.
 
 [size=4][b][color=#E8C88A]Installation[/color][/b][/size]
 
