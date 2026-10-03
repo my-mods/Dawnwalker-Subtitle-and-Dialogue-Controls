@@ -1,0 +1,108 @@
+{
+  "description": "Inventory tooltip text wraps to its available width instead of a fixed column. Applies to names, descriptions, custom stats and warnings.",
+  "sourceGameBuild": "25232147 (UE5.5.4)",
+  "sourceRights": "Original game asset metadata remains the property of its respective owners.",
+  "assets": [
+    {
+      "asset": "WBP_Inventory_ItemTooltip",
+      "gamePath": "/Game/_Dawnwalker/UI/_Unified/GameHub/Inventory/Tooltip/WBP_Inventory_ItemTooltip",
+      "stockUassetSha256": "c573bfc58288037dc5c7563ed44b6a994a811e2432f7d0cb0b0e581305a6aee2",
+      "editedExports": [
+        {
+          "widget": "SkillBookLevelText",
+          "class": "DWW_RichText_C",
+          "wrapIndex": 24,
+          "autoWrapIndex": 22,
+          "payloadOffset": 165,
+          "originalWrapTextAt": 800.0,
+          "wrapTextAt": 0,
+          "autoWrapText": true
+        },
+        {
+          "widget": "SkillBookText",
+          "class": "DWW_RichText_C",
+          "wrapIndex": 24,
+          "autoWrapIndex": 22,
+          "payloadOffset": 132,
+          "originalWrapTextAt": 800.0,
+          "wrapTextAt": 0,
+          "autoWrapText": true
+        },
+        {
+          "widget": "ConsumablePenalityInfo",
+          "class": "DWW_Text_C",
+          "wrapIndex": 25,
+          "autoWrapIndex": 23,
+          "payloadOffset": 72,
+          "originalWrapTextAt": 800.0,
+          "wrapTextAt": 0,
+          "autoWrapText": true
+        },
+        {
+          "widget": "ItemCategoryLabel",
+          "class": "DWW_Text_C",
+          "wrapIndex": 25,
+          "autoWrapIndex": 23,
+          "payloadOffset": 98,
+          "originalWrapTextAt": 600.0,
+          "wrapTextAt": 0,
+          "autoWrapText": true
+        },
+        {
+          "widget": "ItemDescriptionLabel",
+          "class": "DWW_Text_C",
+          "wrapIndex": 25,
+          "autoWrapIndex": 23,
+          "payloadOffset": 142,
+          "originalWrapTextAt": 800.0,
+          "wrapTextAt": 0,
+          "autoWrapText": true
+        },
+        {
+          "widget": "ItemNameLabel",
+          "class": "DWW_Text_C",
+          "wrapIndex": 25,
+          "autoWrapIndex": 23,
+          "payloadOffset": 92,
+          "originalWrapTextAt": 500.0,
+          "wrapTextAt": 0,
+          "autoWrapText": true
+        }
+      ]
+    },
+    {
+      "asset": "WBP_Inventory_ItemTooltip_Stat_Custom",
+      "gamePath": "/Game/_Dawnwalker/UI/_Unified/GameHub/Inventory/Tooltip/WBP_Inventory_ItemTooltip_Stat_Custom",
+      "stockUassetSha256": "da34b24b90be54e7852f8be33da1eeea0fd1bd5ee1db609d787b4e21db50846f",
+      "editedExports": [
+        {
+          "widget": "LabelRichText",
+          "class": "DWW_RichText_C",
+          "wrapIndex": 24,
+          "autoWrapIndex": 22,
+          "payloadOffset": 150,
+          "originalWrapTextAt": 750.0,
+          "wrapTextAt": 0,
+          "autoWrapText": true
+        }
+      ]
+    },
+    {
+      "asset": "WBP_Inventory_ItemTooltip_WarningLabel",
+      "gamePath": "/Game/_Dawnwalker/UI/_Unified/GameHub/Inventory/Tooltip/WBP_Inventory_ItemTooltip_WarningLabel",
+      "stockUassetSha256": "4dffca31caa81105b538591b375047ca5c7ef310515cacbcf702e0cefd372e07",
+      "editedExports": [
+        {
+          "widget": "Label",
+          "class": "DWW_Text_C",
+          "wrapIndex": 25,
+          "autoWrapIndex": 23,
+          "payloadOffset": 72,
+          "originalWrapTextAt": 750.0,
+          "wrapTextAt": 0,
+          "autoWrapText": true
+        }
+      ]
+    }
+  ]
+}
