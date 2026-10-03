@@ -12,7 +12,7 @@
   {
     "type": "attribute",
     "key": "description",
-    "value": "Independent subtitle and dialogue sizes with vanilla Afacad or Alegreya fonts."
+    "value": "Independent sizes and fonts for subtitles, dialogue and supported interface labels."
   },
   {
     "type": "attribute",

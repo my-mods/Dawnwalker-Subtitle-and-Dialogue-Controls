@@ -1,6 +1,6 @@
 -- Subtitle and Dialogue Controls. All engine access stays in registered game-thread callbacks.
 local directory=assert(debug.getinfo(1,'S').source:match('^@(.+[\\/])'))
-local cfg={enabled=1,subtitlePercent=75,dialoguePercent=100,gameplayPercent=100,fontFamily=1,debugLogging=0}
+local cfg={enabled=1,subtitlePercent=75,dialoguePercent=100,gameplayPercent=100,fontFamily=1,uiPercent=100,uiFontFamily=2,debugLogging=0}
 local warned,warningCount={},0
 local function report(key,message)
     if message==nil then message=key;key=message end
@@ -14,15 +14,18 @@ end
 local function valid(o)return o~=nil and o:IsValid()==true end
 local function same(a,b)return valid(a) and valid(b) and a:GetAddress()==b:GetAddress() end
 local function numeric(n)return type(n)=='number' and n==n and math.abs(n)<math.huge end
-local names,classes={},{}
+local names,classes,uiNames,uiOwners={},{},{},{}
+local uiTextClassId
 local engine,system,fontClass
 local fonts,attemptedFonts={},{}
-local hooks,records,queue,pending={},{},{},{}
-local first,last=1,0
+local hooks,records,pending={},{},{}
+local queues={{first=1,last=0,items={}},{first=1,last=0,items={}}}
 local worker,writing,refreshFont=false,false,false
-local recordCount=0
+local recordCount,uiRecordCount=0,0
 local currentWorld
 local diagnostics={jobs=0,writes=0,seconds=0,last=0}
+local function uiActive()return cfg.uiPercent~=100 or cfg.uiFontFamily~=2 end
+local function queueEmpty()return queues[1].first>queues[1].last and queues[2].first>queues[2].last end
 local function worldNow()
     if not valid(engine)then return valid(currentWorld) and currentWorld or nil end
     local viewport=engine.GameViewport
@@ -32,13 +35,15 @@ local function classId(o)return o:GetClass():GetFName():GetComparisonIndex()end
 local function classify(label)
     if not valid(label) or label:HasAnyFlags(0x30) then return end -- CDO/archetype
     local name=label:GetFName():GetComparisonIndex()
-    if not names[name]then return end
+    if not names[name] and not uiNames[name]then return end
     local tree=label:GetOuter()
     if not valid(tree)then return end
     local owner=tree:GetOuter()
     if not valid(owner) or owner:HasAnyFlags(0x30)then return end
-    local kind=classes[classId(owner)]
-    if not kind then return end
+    local ownerId=classId(owner)
+    local kind=classes[ownerId]
+    local ui=uiOwners[ownerId]
+    if not kind and not (ui and ui[name])then return end
     local group
     if kind=='choice' and (names[name]=='ChoiceLabel' or names[name]=='QuantityLabel')then group='dialoguePercent'
     elseif kind=='movie' and names[name]=='SubtitleLabel'then group='subtitlePercent'
@@ -56,13 +61,18 @@ local function classify(label)
             end
         end
     end
+    if not group and ui and ui[name]then group='uiPercent'end
     if not group then return end
+    if group=='uiPercent' and classId(label)~=uiTextClassId then return end
     local w=label:GetWorld()
     if not same(w,worldNow()) or not same(owner:GetWorld(),w)then return end
     return owner,w,group
 end
 local function removeRecord(address)
-    if records[address]then records[address]=nil;recordCount=recordCount-1 end
+    if records[address]then
+        if records[address].group=='uiPercent'then uiRecordCount=uiRecordCount-1 end
+        records[address]=nil;recordCount=recordCount-1
+    end
 end
 local function applyLabel(label,fresh)
     if not valid(label)then return end
@@ -75,6 +85,8 @@ local function applyLabel(label,fresh)
         removeRecord(address);record=nil
     end
     if cfg.enabled~=1 and not record then return end
+    local isUI=group=='uiPercent'
+    if isUI and not uiActive() and not record then return end
     -- Font is borrowed from the widget. Never retain this struct beyond this operation.
     local font=label.Font
     local size,fontObject=font.Size,font.FontObject
@@ -82,14 +94,17 @@ local function applyLabel(label,fresh)
         report('font-layout','A target widget has an unsupported font; that widget is unchanged.');return
     end
     if not record then
-        if recordCount>=256 then
+        local count=isUI and uiRecordCount or recordCount-uiRecordCount
+        if count>=256 then
             for key,item in pairs(records)do
                 if not valid(item.label) or not same(item.world,world)then removeRecord(key)end
             end
         end
-        if recordCount>=256 then report('record-limit','Target cache is full; additional widgets are unchanged until a later line event.');return end
+        count=isUI and uiRecordCount or recordCount-uiRecordCount
+        if count>=256 then report(isUI and 'ui-record-limit' or 'record-limit','Target cache is full; additional widgets are unchanged until a later text event.');return end
         record={label=label,owner=owner,world=world,identity=identity,group=group,baseSize=size,baseFont=fontObject}
         records[address]=record;recordCount=recordCount+1
+        if isUI then uiRecordCount=uiRecordCount+1 end
     else
         record.group=group
         if fresh or (record.lastSize and size~=record.lastSize)then record.baseSize=size end
@@ -100,8 +115,11 @@ local function applyLabel(label,fresh)
     local targetSize,targetFont=size,fontObject
     if cfg.enabled==1 then
         targetSize=math.max(6,math.min(192,math.floor(record.baseSize*cfg[group]/10+0.5)/10))
-        local selected=fonts[cfg.fontFamily]
-        if valid(selected)then targetFont=selected end
+        local family=isUI and cfg.uiFontFamily or cfg.fontFamily
+        local selected=fonts[family]
+        if family==2 then
+            if valid(record.baseFont)then targetFont=record.baseFont end
+        elseif valid(selected)then targetFont=selected end
     else
         if record.lastSize and size==record.lastSize then targetSize=record.baseSize end
         if record.lastFont and same(fontObject,record.lastFont) and valid(record.baseFont)then targetFont=record.baseFont end
@@ -124,10 +142,16 @@ local function applyLabel(label,fresh)
     end
     if cfg.enabled==1 then record.lastSize=targetSize;record.lastFont=targetFont
     else record.lastSize=nil;record.lastFont=nil end
+    if isUI and (cfg.enabled~=1 or not uiActive())then removeRecord(address)end
 end
-local function loadFont()
-    local selection=cfg.fontFamily
-    if cfg.enabled~=1 or valid(fonts[selection]) or attemptedFonts[selection]then return end
+local function neededFont()
+    if cfg.enabled~=1 then return end
+    for _,selection in ipairs({cfg.fontFamily,cfg.uiFontFamily})do
+        if selection~=2 and not valid(fonts[selection]) and not attemptedFonts[selection]then return selection end
+    end
+end
+local function loadFont(selection)
+    if selection==nil then return end
     attemptedFonts[selection]=true
     local family=selection==0 and 'Afacad' or 'Alegreya'
     local path='/Game/SubtitleDialogueControls/Fonts/SDC_'..family..'.SDC_'..family
@@ -145,26 +169,29 @@ local function loadFont()
 end
 local pump
 local function schedule()
-    if worker or (first>last and not refreshFont)then return end
+    if worker or (queueEmpty() and not refreshFont)then return end
     worker=true
     ExecuteInGameThreadWithDelay(16,pump)
 end
-local function enqueue(label,fresh)
+local function enqueue(label,fresh,isUI)
     if not valid(label)then return end
     local address=label:GetAddress()
     if pending[address]then pending[address].fresh=pending[address].fresh or fresh;return end
-    if last-first+1>=256 then report('queue-limit','Text event burst exceeds the queue budget; skipped labels retry on their next event.');return end
+    local q=queues[isUI and 2 or 1]
+    if q.last-q.first+1>=256 then report(isUI and 'ui-queue-limit' or 'queue-limit','Text event burst exceeds the queue budget; skipped labels retry on their next event.');return end
     local item={label=label,fresh=fresh,address=address}
-    pending[address]=item;last=last+1;queue[last]=item
+    pending[address]=item;q.last=q.last+1;q.items[q.last]=item
     schedule()
 end
 pump=function()
     worker=false
     local start=cfg.debugLogging==1 and os.clock() or nil
     -- At most one asset load OR one label operation in each later-frame callback.
-    if refreshFont then refreshFont=false;loadFont()
-    elseif first<=last then
-        local item=queue[first];queue[first]=nil;first=first+1
+    if refreshFont then loadFont(neededFont());refreshFont=neededFont()~=nil
+    elseif not queueEmpty() then
+        -- Menu bursts have a separate budget and cannot fill the subtitle queue.
+        local q=queues[1].first<=queues[1].last and queues[1] or queues[2]
+        local item=q.items[q.first];q.items[q.first]=nil;q.first=q.first+1
         pending[item.address]=nil
         if valid(item.label)then
             local ok,err=pcall(applyLabel,item.label,item.fresh)
@@ -172,11 +199,11 @@ pump=function()
         else
             removeRecord(item.address)
         end
+        if q.first>q.last then q.first=1;q.last=0 end
     end
-    if first>last then first=1;last=0 end
     if start then
         diagnostics.jobs=diagnostics.jobs+1;diagnostics.seconds=diagnostics.seconds+os.clock()-start
-        if first>last and (diagnostics.last==0 or os.clock()-diagnostics.last>=30)then
+        if queueEmpty() and (diagnostics.last==0 or os.clock()-diagnostics.last>=30)then
             diagnostics.last=os.clock()
             print(string.format('[SubtitleDialogueControls] jobs=%d writes=%d total=%.3fms tracked=%d\n',diagnostics.jobs,diagnostics.writes,diagnostics.seconds*1000,recordCount))
             diagnostics.jobs=0;diagnostics.writes=0;diagnostics.seconds=0
@@ -188,8 +215,8 @@ local function configure(snapshot)
     local changed=false
     for key,value in pairs(snapshot)do if key~='debugLogging' and cfg[key]~=value then changed=true end;cfg[key]=value end
     if not changed then return end
-    if cfg.enabled==1 then refreshFont=true;attemptedFonts[cfg.fontFamily]=nil end
-    for _,record in pairs(records)do enqueue(record.label,false)end
+    if cfg.enabled==1 then refreshFont=true;attemptedFonts={} end
+    for _,record in pairs(records)do enqueue(record.label,false,record.group=='uiPercent')end
     schedule()
 end
 local function install(path,signature,fresh)
@@ -207,11 +234,22 @@ local function install(path,signature,fresh)
             local success,problem=pcall(function()
                 local label=context:get()
                 -- FName indices reject unrelated text before any tree traversal or string building.
-                if valid(label) and names[label:GetFName():GetComparisonIndex()]then
-                    if fonts[cfg.fontFamily] and not valid(fonts[cfg.fontFamily])then
-                        fonts[cfg.fontFamily]=nil;attemptedFonts[cfg.fontFamily]=nil;refreshFont=true
+                if not valid(label)then return end
+                local name=label:GetFName():GetComparisonIndex()
+                if names[name] or (uiActive() and uiNames[name])then
+                    for _,family in ipairs({cfg.fontFamily,cfg.uiFontFamily})do
+                        if fonts[family] and not valid(fonts[family])then
+                            fonts[family]=nil;attemptedFonts[family]=nil;refreshFont=true
+                        end
                     end
-                    enqueue(label,fresh)
+                    local isUI=not names[name]
+                    if names[name] and uiNames[name]then
+                        local tree=label:GetOuter()
+                        local owner=valid(tree) and tree:GetOuter() or nil
+                        local allow=valid(owner) and uiOwners[classId(owner)] or nil
+                        isUI=allow and allow[name] or false
+                    end
+                    enqueue(label,fresh,isUI)
                 end
             end)
             if not success then report(path,'Text event failed: '..tostring(problem))end
@@ -229,6 +267,14 @@ end
 ExecuteInGameThread(function()
     local ok,err=pcall(function()
         for _,name in ipairs({'LineLabel','NameLabel','SubtitleLabel','ChoiceLabel','QuantityLabel'})do names[FName(name):GetComparisonIndex()]=name end
+        uiTextClassId=FName('DWW_Text_C'):GetComparisonIndex()
+        for owner,labels in pairs(require('UITargets'))do
+            local allow={}
+            for _,name in ipairs(labels)do
+                local id=FName(name):GetComparisonIndex();uiNames[id]=true;allow[id]=true
+            end
+            uiOwners[FName(owner):GetComparisonIndex()]=allow
+        end
         for name,kind in pairs({WBP_Dialogue_Line_C='line',WBP_Accessibility_Dialogue_Line_C='accessibility',WBP_MovieSubtitle_C='movie',WBP_GameplayDialogue_OverheadSubtitle_C='overhead',WBP_Dialogue_ChoiceBox_Line_C='choice',WBP_Dialogue_ChoiceBox_Line_Shrine_C='choice',WBP_Dialogue_C='cinematicRoot',WBP_Dialogue_Shrine_C='cinematicRoot',WBP_GameplayDialogue_HUD_C='gameplayRoot'})do classes[FName(name):GetComparisonIndex()]=kind end
         engine=FindFirstOf('Engine')
         system=StaticFindObject('/Script/Engine.Default__KismetSystemLibrary')
@@ -249,7 +295,7 @@ ExecuteInGameThread(function()
                     attemptedFonts={};refreshFont=cfg.enabled==1
                     for key,record in pairs(records)do
                         if not valid(record.label) or not same(record.world,currentWorld)then removeRecord(key)
-                        else enqueue(record.label,false)end
+                        else enqueue(record.label,false,record.group=='uiPercent')end
                     end
                     schedule()
                 end)
