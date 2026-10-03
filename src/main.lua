@@ -1,4 +1,4 @@
--- Subtitle and Dialogue Controls. All engine access stays in registered game-thread callbacks.
+-- UI and Subtitles - Configurable Font and Text Size. All engine access stays in registered game-thread callbacks.
 local directory=assert(debug.getinfo(1,'S').source:match('^@(.+[\\/])'))
 local cfg={enabled=1,subtitlePercent=75,dialoguePercent=100,gameplayPercent=100,fontFamily=1,uiPercent=100,uiFontFamily=2,debugLogging=0}
 local warned,warningCount={},0

@@ -1,5 +1,5 @@
 {
-  "title": "Subtitle and Dialogue Controls",
+  "title": "UI and Subtitles - Configurable Font and Text Size",
   "game": "thebloodofdawnwalker",
   "category": "User Interface",
   "author": "oOCamilleOo",
@@ -16,7 +16,7 @@
   "thumbnail": "thumbnail.jpg",
   "tags": ["User Interface", "Quality of Life", "AI-Generated Content", "AI Media"],
   "file": {
-    "displayName": "Subtitle and Dialogue Controls",
+    "displayName": "UI and Subtitles - Configurable Font and Text Size",
     "filename": "Subtitle-and-Dialogue-Controls.zip",
     "version": "0.1.0",
     "category": "main",

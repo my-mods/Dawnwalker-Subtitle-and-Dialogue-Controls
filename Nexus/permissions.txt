@@ -1,4 +1,4 @@
-Original Lua code and documentation in Subtitle and Dialogue Controls are released under the MIT license. You may use, modify and redistribute that material while retaining its copyright and license notice.
+Original Lua code and documentation in UI and Subtitles - Configurable Font and Text Size are released under the MIT license. You may use, modify and redistribute that material while retaining its copyright and license notice.
 
 Alegreya and Afacad retain their SIL Open Font License 1.1 notices and conditions. The bundled ue4ss-common modules retain their MIT notices. See the included LICENSES directory for the full texts.
 

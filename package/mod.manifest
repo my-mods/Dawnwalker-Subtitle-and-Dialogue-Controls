@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mod>
   <info>
-    <name>Subtitle and Dialogue Controls</name>
+    <name>UI and Subtitles - Configurable Font and Text Size</name>
     <modid>SubtitleDialogueControls</modid>
     <description>Independent sizes and fonts for subtitles, dialogue and supported interface labels.</description>
     <author>oOCamilleOo</author>

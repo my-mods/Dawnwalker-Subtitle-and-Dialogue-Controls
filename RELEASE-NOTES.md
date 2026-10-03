@@ -1,4 +1,4 @@
-# Subtitle and Dialogue Controls
+# UI and Subtitles - Configurable Font and Text Size
 
 - Cinematic subtitles start at 75% size, with separate controls for dialogue choices and gameplay subtitles.
 - Choose vanilla Afacad or Alegreya for subtitle and dialogue text.

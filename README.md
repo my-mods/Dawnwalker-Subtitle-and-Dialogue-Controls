@@ -1,4 +1,4 @@
-# Subtitle and Dialogue Controls
+# UI and Subtitles - Configurable Font and Text Size
 
 Adjust cinematic subtitles, dialogue choices, gameplay subtitles and supported interface labels independently in The Blood of Dawnwalker. Choose the vanilla Afacad font or Alegreya separately for subtitles/dialogue and other UI text.
 
@@ -30,7 +30,7 @@ Requires UE4SS with Lua 5.4, native UFunction hooks and delayed game-thread call
 
 ## Configuration
 
-Open Mod Settings, select Subtitle and Dialogue Controls, change the values and choose Apply. Visible text updates over the next few frames; new lines receive the same settings. Turning Enabled off restores font and size values still controlled by this mod. Reset restores the defaults above.
+Open Mod Settings, select UI and Subtitles - Configurable Font and Text Size, change the values and choose Apply. Visible text updates over the next few frames; new lines receive the same settings. Turning Enabled off restores font and size values still controlled by this mod. Reset restores the defaults above.
 
 Without Mod Settings, launch the game once to create `Dawnwalker/Binaries/Win64/ue4ss/Mods/SubtitleDialogueControls/settings.ini`. Close the game before editing its `[Settings]` section and restart afterward. `subtitlePercent`, `dialoguePercent`, `gameplayPercent` and `uiPercent` accept whole numbers from 25 to 200. `fontFamily = 0` selects vanilla Afacad; `fontFamily = 1` selects Alegreya. `uiFontFamily` uses the same values, plus 2 for Keep current. `enabled` and `debugLogging` use 0 for Off and 1 for On. At startup, an older valid preferences file receives only the missing UI keys with their defaults. Its previous contents are retained in `settings.ini.before-ui-controls`; existing values, comments and other sections are preserved. If a previous upgrade backup or temporary file needs attention, the log reports it instead of overwriting it. The archive does not contain an active settings.ini.
 
