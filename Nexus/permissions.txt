@@ -1,0 +1,7 @@
+Original Lua code and documentation in Subtitle and Dialogue Controls are released under the MIT license. You may use, modify and redistribute that material while retaining its copyright and license notice.
+
+Alegreya and Afacad retain their SIL Open Font License 1.1 notices and conditions. The bundled ue4ss-common modules retain their MIT notices. See the included LICENSES directory for the full texts.
+
+The unchanged Mod Setting Menu integration helper is included under the author's explicit integration instructions; see LICENSES/dmm-api.txt. That permission is not a blanket license to the Mod Setting Menu package.
+
+Alternative Font - Alegreya is credited as inspiration; its Nexus archive is not included, and this license grants no rights to that mod. Original game asset metadata and promotional imagery belong to their respective rights holders and are not covered by this mod's MIT license. No blanket permission to redistribute the complete mixed-content package or its artwork is granted here.

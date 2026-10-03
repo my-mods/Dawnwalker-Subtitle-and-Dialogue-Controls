@@ -1,0 +1,48 @@
+[size=5][b][color=#E8C88A]Subtitle and Dialogue Controls[/color][/b][/size]
+
+Make cinematic subtitles smaller without shrinking your dialogue choices. Adjust subtitle, dialogue and selected interface text independently, and choose between the vanilla [b]Afacad[/b] font and [b]Alegreya[/b].
+
+[size=4][b][color=#E8C88A]Text controls[/color][/b][/size]
+
+[list]
+[*][b][color=#A8D5C2]Cinematic subtitles:[/color][/b] Spoken lines, speaker names and movie subtitles. Default: 75%.
+[*][b][color=#A8D5C2]Dialogue choices:[/color][/b] Response choices and their quantity labels. Default: 100%.
+[*][b][color=#A8D5C2]Gameplay subtitles:[/color][/b] Bottom-screen, accessibility and overhead NPC lines. The game's distance scaling remains active. Default: 100%.
+[*][b][color=#A8D5C2]Subtitle and dialogue font:[/color][/b] Vanilla Afacad or Alegreya. Default: Alegreya.
+[*][b][color=#A8D5C2]Other UI text:[/color][/b] Separate size and font controls for supported labels in menus, settings, inventory, stats, item tooltips and the journal. Default: 100%, with Keep current as the font choice.
+[/list]
+
+Each size control ranges from [b]25% to 200%[/b], in 5% menu steps. Percentages use the label's original size, including any style supplied by another mod. 100% keeps that size.
+
+The two font selectors are independent. Other UI can keep its existing font or use Afacad or Alegreya. Both font families are included; language-specific fallback faces continue to come from the game.
+
+[size=4][b][color=#E8C88A]Configuration[/color][/b][/size]
+
+Open [b]Mod Settings > Subtitle and Dialogue Controls[/b], change the values and choose [b]Apply[/b]. Visible tracked text updates over the next few frames. Reset restores the defaults above; turning Enabled off restores font and size values still controlled by this mod.
+
+Without the menu, launch the game once, close it and edit [b]Dawnwalker/Binaries/Win64/ue4ss/Mods/SubtitleDialogueControls/settings.ini[/b]. Restart afterward. The included settings.ini.example lists the available values.
+
+[b]Logging[/b] is optional and off by default. Enable it to write font-loading failures and aggregate update counts and timings to [b]Dawnwalker/Binaries/Win64/ue4ss/UE4SS.log[/b].
+
+[size=4][b][color=#E8C88A]UI coverage[/color][/b][/size]
+
+Other UI controls affect selected ordinary text labels, including main-menu buttons, settings names and descriptions, inventory quantities and stats, and journal titles and objectives. [b]Rich text, graphical lettering and unlisted widgets keep their existing appearance.[/b] Panels are not resized or rearranged.
+
+Reopen or refresh a menu after changing its settings. Restart the game if a cached screen retains its previous appearance. Very large text may exceed the space available in the game's layout.
+
+[size=4][b][color=#E8C88A]Installation[/color][/b][/size]
+
+[list]
+[*][b][color=#A8D5C2]Vortex:[/color][/b] Install Subtitle-and-Dialogue-Controls.zip through Vortex, enable it and deploy.
+[*][b][color=#A8D5C2]Manual:[/color][/b] Copy the archive's Dawnwalker folder into your The Blood of Dawnwalker installation directory, preserving the folder structure.
+[/list]
+
+[size=4][b][color=#E8C88A]Credits and source[/color][/b][/size]
+
+Font choice inspired by [url=https://www.nexusmods.com/thebloodofdawnwalker/mods/217]Alternative Font - Alegreya by WinterElfeas[/url]. Its Nexus archive is not redistributed here.
+
+Alegreya and Afacad are by their respective project authors, under the SIL Open Font License 1.1. License notices are included. Thanks to the UE4SS contributors, the ue4ss-common contributors, and mmarcussa for Mod Setting Menu and its integration helper.
+
+Banner and thumbnail: a subtitled still from Rebel Wolves' gameplay demonstration, sourced from [url=https://www.pushsquare.com/news/2025/11/promising-ps5-rpg-the-blood-of-dawnwalker-looks-way-more-polished-in-huge-gameplay-demo]Push Square's coverage[/url], with a title overlay. Illustrative promotional imagery; the subtitles shown belong to the original footage.
+
+[url=https://github.com/my-mods/Dawnwalker-Subtitle-and-Dialogue-Controls]Source code and documentation[/url]. Authored Lua code and documentation use the MIT license. Third-party fonts, game asset metadata and imagery retain their respective rights.

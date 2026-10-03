@@ -1,0 +1,46 @@
+{
+  "title": "Subtitle and Dialogue Controls",
+  "game": "thebloodofdawnwalker",
+  "category": "User Interface",
+  "author": "oOCamilleOo",
+  "language": "English",
+  "version": "0.1.0",
+  "source": "https://github.com/my-mods/Dawnwalker-Subtitle-and-Dialogue-Controls",
+  "summary": "summary.txt",
+  "description": "description.bbcode",
+  "permissions": "permissions.txt",
+  "permissionMode": "custom",
+  "thirdPartyContent": "Yes (I have permission)",
+  "credits": "Alegreya and Afacad project authors (SIL OFL 1.1); ue4ss-common contributors (MIT); mmarcussa for the unchanged Mod Setting Menu integration helper under its integration instructions; UE4SS contributors. Font choice inspired by Alternative Font - Alegreya by WinterElfeas, whose archive is not included. Game imagery from Rebel Wolves' gameplay demonstration via Push Square, used with permission. See the bundled licenses and media credits.",
+  "banner": "banner.jpg",
+  "thumbnail": "thumbnail.jpg",
+  "tags": ["User Interface", "Quality of Life", "AI-Generated Content", "AI Media"],
+  "file": {
+    "displayName": "Subtitle and Dialogue Controls",
+    "filename": "Subtitle-and-Dialogue-Controls.zip",
+    "version": "0.1.0",
+    "category": "main",
+    "description": "file-description.txt",
+    "modManagerDownload": true,
+    "showRequirementsPopup": true,
+    "changelog": "changelog-0.1.0.txt"
+  },
+  "requirements": [
+    {
+      "name": "Dawnwalker-compatible UE4SS",
+      "required": true,
+      "anyOf": [
+        {"url": "https://www.nexusmods.com/thebloodofdawnwalker/mods/18", "testedExample": "Vercadi RC6"},
+        {"url": "https://www.nexusmods.com/thebloodofdawnwalker/mods/283", "testedExample": "Framecore 2b"}
+      ],
+      "notes": "Install one compatible package. Requires Lua 5.4, native UFunction hooks and delayed game-thread callbacks. Blueprint execution hooks are not required."
+    },
+    {
+      "name": "Mod Setting Menu",
+      "url": "https://www.nexusmods.com/thebloodofdawnwalker/mods/271",
+      "required": false,
+      "minimumVersion": "1.0.6",
+      "notes": "Optional for the in-game settings and live Apply. Enable HookProcessConsoleExec in UE4SS."
+    }
+  ]
+}

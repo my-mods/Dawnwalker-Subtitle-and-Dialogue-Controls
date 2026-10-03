@@ -26,7 +26,7 @@ Requires UE4SS with Lua 5.4, native UFunction hooks and delayed game-thread call
 ## Installation
 
 - Vortex: Install Subtitle-and-Dialogue-Controls.zip through Vortex, enable it and deploy.
-- Manual: Copy the archive's Dawnwalker folder into the The Blood of Dawnwalker game directory, preserving the folder structure.
+- Manual: Copy the archive's Dawnwalker folder into your The Blood of Dawnwalker installation directory, preserving the folder structure.
 
 ## Configuration
 

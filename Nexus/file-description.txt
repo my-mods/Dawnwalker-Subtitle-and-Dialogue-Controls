@@ -1,0 +1,1 @@
+Independent cinematic, dialogue choice and gameplay subtitle sizes, with vanilla Afacad or Alegreya fonts. Separate size and font controls for supported UI labels, live Mod Settings controls and persistent settings.

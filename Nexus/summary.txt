@@ -1,0 +1,1 @@
+Adjust cinematic subtitles, dialogue choices and gameplay subtitles independently. Choose vanilla Afacad or Alegreya, with separate size and font controls for supported menu, inventory and journal labels. Includes live Mod Settings controls.
