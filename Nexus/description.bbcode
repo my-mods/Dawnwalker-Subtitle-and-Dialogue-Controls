@@ -16,7 +16,7 @@ Each size control ranges from [b]25% to 200%[/b], in 5% menu steps. Percentages 
 
 The two font selectors are independent. Other UI can keep its existing font or use Afacad or Alegreya. Both font families are included; language-specific fallback faces continue to come from the game.
 
-Inventory item names, descriptions, custom stats and warnings use the width available inside their tooltip. This removes fixed text-column limits that can make larger fonts wrap excessively and shrink down to tiny text. Skill-book descriptions and consumable warnings are covered too.
+Inventory tooltips use stable line-wrap widths to prevent repeated reflow as the panel scales to fit. Descriptions and names account for panel padding and item icons. Custom stats, warnings, skill-book text and consumable warnings are covered too. Very long tooltips can still shrink to fit the screen.
 
 [size=4][b][color=#E8C88A]Configuration[/color][/b][/size]
 
@@ -24,7 +24,7 @@ Open [b]Mod Settings > UI and Subtitles - Configurable Font and Text Size[/b], c
 
 Without the menu, launch the game once, close it and edit [b]Dawnwalker/Binaries/Win64/ue4ss/Mods/UIAndSubtitles/settings.ini[/b]. Restart afterward. The included settings.ini.example lists the available values.
 
-The tooltip wrapping correction loads at game startup and remains active when Enabled is off; that switch controls font and size adjustments. Wrapping follows the space provided by the game without another script pass when menus open.
+The tooltip wrapping correction loads at game startup and remains active when Enabled is off; that switch controls font and size adjustments. Its layout widths stay fixed while viewing an item, without another script pass when menus open.
 
 [b]Logging[/b] is optional and off by default. Enable it to write UI preparation reasons, style and template counts, update timings and font-load timings to [b]Dawnwalker/Binaries/Win64/ue4ss/UE4SS.log[/b]. Selected fonts load at startup or settings changes.
 

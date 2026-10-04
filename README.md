@@ -19,7 +19,7 @@ Other UI controls cover main-menu and title-screen text, settings, inventory nam
 
 The two font selectors are independent. Other UI starts at 100% with Keep current, preserving its existing font. Both font families are included under unique asset paths, so Alternative Font - Alegreya can remain enabled for the rest of the interface. It is not required by this mod. Language-specific fallback faces continue to come from the game.
 
-Inventory item names, descriptions, custom stats and warnings wrap to the width available inside their tooltip. This removes fixed text-column limits that can produce excessive line breaks and trigger heavy shrink-to-fit scaling at larger font sizes. The layout correction also covers skill-book descriptions and consumable warnings.
+Inventory tooltips use stable line-wrap widths so their text does not repeatedly reflow as the panel scales to fit. Item descriptions and names use widths that account for the panel padding and space reserved for icons. Custom stats, warnings, skill-book text and consumable warnings also use explicit wrapping. Very long tooltips can still shrink to fit the screen.
 
 ## Dependencies
 
@@ -34,7 +34,7 @@ Requires UE4SS with Lua 5.4, native UFunction hooks and delayed game-thread call
 
 Open Mod Settings, select UI and Subtitles - Configurable Font and Text Size, change the values and choose Apply. Apply reuses completed setup and refreshes existing labels in larger batches after collecting them. Large updates can span several frames. Subsequent menu openings inherit the prepared defaults. Independent subtitle controls still respond when the game creates or restyles spoken lines. Turning Enabled off restores font and size values still controlled by this mod. Reset restores the defaults above.
 
-The tooltip wrapping correction is loaded when the game starts. It follows the space provided by the game without an additional menu-opening script. It remains active when Enabled is off; that switch controls the font and size adjustments.
+The tooltip wrapping correction is loaded when the game starts. Its layout widths stay fixed while viewing an item, without an additional menu-opening script. It remains active when Enabled is off; that switch controls the font and size adjustments.
 
 Without Mod Settings, launch the game once to create `Dawnwalker/Binaries/Win64/ue4ss/Mods/UIAndSubtitles/settings.ini`. Close the game before editing its `[Settings]` section and restart afterward. `subtitlePercent`, `dialoguePercent`, `gameplayPercent` and `uiPercent` accept whole numbers from 25 to 200. `fontFamily = 0` selects vanilla Afacad; `fontFamily = 1` selects Alegreya. `uiFontFamily` uses the same values, plus 2 for Keep current. `enabled` and `debugLogging` use 0 for Off and 1 for On. At startup, an older valid preferences file receives only the missing UI keys with their defaults. Its previous contents are retained in `settings.ini.before-ui-controls`; existing values, comments and other sections are preserved. If a previous upgrade backup or temporary file needs attention, the log reports it instead of overwriting it. The archive does not contain an active settings.ini.
 

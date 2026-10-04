@@ -1,7 +1,16 @@
 {
-  "description": "Inventory tooltip text wraps to its available width instead of a fixed column. Applies to names, descriptions, custom stats and warnings.",
+  "description": "Stable explicit inventory tooltip wrapping avoids feedback between automatic line wrapping and shrink-to-fit layout. Description and name limits account for the authored panel padding and icon space.",
   "sourceGameBuild": "25232147 (UE5.5.4)",
   "sourceRights": "Original game asset metadata remains the property of its respective owners.",
+  "layoutBasis": {
+    "panelWidth": 950,
+    "contentPaddingLeft": 60,
+    "contentPaddingRight": 60,
+    "bodyWidth": 830,
+    "nameIconReserve": 250,
+    "categoryIconReserve": 260,
+    "inlineRows": "Retain stock wrap limits for rows sharing width with icons or values."
+  },
   "assets": [
     {
       "asset": "WBP_Inventory_ItemTooltip",
@@ -15,8 +24,8 @@
           "autoWrapIndex": 22,
           "payloadOffset": 165,
           "originalWrapTextAt": 800.0,
-          "wrapTextAt": 0,
-          "autoWrapText": true
+          "wrapTextAt": 800.0,
+          "autoWrapText": false
         },
         {
           "widget": "SkillBookText",
@@ -25,8 +34,8 @@
           "autoWrapIndex": 22,
           "payloadOffset": 132,
           "originalWrapTextAt": 800.0,
-          "wrapTextAt": 0,
-          "autoWrapText": true
+          "wrapTextAt": 830.0,
+          "autoWrapText": false
         },
         {
           "widget": "ConsumablePenalityInfo",
@@ -35,8 +44,8 @@
           "autoWrapIndex": 23,
           "payloadOffset": 72,
           "originalWrapTextAt": 800.0,
-          "wrapTextAt": 0,
-          "autoWrapText": true
+          "wrapTextAt": 800.0,
+          "autoWrapText": false
         },
         {
           "widget": "ItemCategoryLabel",
@@ -45,8 +54,8 @@
           "autoWrapIndex": 23,
           "payloadOffset": 98,
           "originalWrapTextAt": 600.0,
-          "wrapTextAt": 0,
-          "autoWrapText": true
+          "wrapTextAt": 570.0,
+          "autoWrapText": false
         },
         {
           "widget": "ItemDescriptionLabel",
@@ -55,8 +64,8 @@
           "autoWrapIndex": 23,
           "payloadOffset": 142,
           "originalWrapTextAt": 800.0,
-          "wrapTextAt": 0,
-          "autoWrapText": true
+          "wrapTextAt": 830.0,
+          "autoWrapText": false
         },
         {
           "widget": "ItemNameLabel",
@@ -65,8 +74,8 @@
           "autoWrapIndex": 23,
           "payloadOffset": 92,
           "originalWrapTextAt": 500.0,
-          "wrapTextAt": 0,
-          "autoWrapText": true
+          "wrapTextAt": 580.0,
+          "autoWrapText": false
         }
       ]
     },
@@ -82,8 +91,8 @@
           "autoWrapIndex": 22,
           "payloadOffset": 150,
           "originalWrapTextAt": 750.0,
-          "wrapTextAt": 0,
-          "autoWrapText": true
+          "wrapTextAt": 750.0,
+          "autoWrapText": false
         }
       ]
     },
@@ -99,8 +108,8 @@
           "autoWrapIndex": 23,
           "payloadOffset": 72,
           "originalWrapTextAt": 750.0,
-          "wrapTextAt": 0,
-          "autoWrapText": true
+          "wrapTextAt": 750.0,
+          "autoWrapText": false
         }
       ]
     }
