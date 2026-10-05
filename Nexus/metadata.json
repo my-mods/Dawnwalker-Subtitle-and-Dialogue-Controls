@@ -14,7 +14,12 @@
   "credits": "Alegreya and Afacad project authors (SIL OFL 1.1); ue4ss-common contributors (MIT); mmarcussa for the unchanged Mod Setting Menu integration helper under its integration instructions; UE4SS contributors. Font choice inspired by Alternative Font - Alegreya by WinterElfeas, whose archive is not included. Game imagery from Rebel Wolves' gameplay demonstration via Push Square, used with permission. See the bundled licenses and media credits.",
   "banner": "banner.jpg",
   "thumbnail": "thumbnail.jpg",
-  "tags": ["User Interface", "Quality of Life", "AI-Generated Content", "AI Media"],
+  "tags": [
+    "User Interface",
+    "Quality of Life",
+    "AI-Generated Content",
+    "AI Media"
+  ],
   "file": {
     "displayName": "UI and Subtitles - Configurable Font and Text Size",
     "filename": "UI-and-Subtitles-Configurable-Font-and-Text-Size.zip",
@@ -27,13 +32,11 @@
   },
   "requirements": [
     {
-      "name": "Dawnwalker-compatible UE4SS",
-      "required": true,
-      "anyOf": [
-        {"url": "https://www.nexusmods.com/thebloodofdawnwalker/mods/18", "testedExample": "Vercadi RC6"},
-        {"url": "https://www.nexusmods.com/thebloodofdawnwalker/mods/283", "testedExample": "Framecore 2b"}
-      ],
-      "notes": "Install one compatible package. Requires Lua 5.4, native UFunction hooks and delayed game-thread callbacks. Main-menu startup detection uses NotifyOnNewObject. Blueprint execution hooks are not required."
+      "name": "UE4SS for Dawnwalker by Vercadi",
+      "url": "https://www.nexusmods.com/thebloodofdawnwalker/mods/18",
+      "minimumVersion": "1.3",
+      "optional": false,
+      "note": "Required: Vercadi's UE4SS for Dawnwalker, Nexus version 1.3 (RC6) or later."
     },
     {
       "name": "Mod Setting Menu",
@@ -42,5 +45,6 @@
       "minimumVersion": "1.0.6",
       "notes": "Optional for the in-game settings and live Apply. Enable HookProcessConsoleExec in UE4SS."
     }
-  ]
+  ],
+  "requirementsMode": "file-to-file"
 }

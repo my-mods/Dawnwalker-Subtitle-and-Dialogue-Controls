@@ -23,7 +23,7 @@ Inventory tooltips use stable line-wrap widths so their text does not repeatedly
 
 ## Dependencies
 
-Requires UE4SS with Lua 5.4, native UFunction hooks and delayed game-thread callbacks, such as Vercadi UE4SS RC6 or Framecore UE4SS 2b. Persistent UI defaults also require StaticConstructObject and reflected object arrays. NotifyOnNewObject retains existing labels for the next Apply; it does not apply settings when menus open. Blueprint execution hooks are not required. Dawnwalker Mod Menu 1.0.6 or later is optional for the in-game controls and live Apply; its console bridge requires HookProcessConsoleExec to be enabled in UE4SS.
+Requires [UE4SS for Dawnwalker by Vercadi](https://www.nexusmods.com/thebloodofdawnwalker/mods/18) **1.3 (RC6) or later**. The mod uses Lua 5.4, native UFunction hooks and delayed game-thread callbacks. Persistent UI defaults also require StaticConstructObject and reflected object arrays. NotifyOnNewObject retains existing labels for the next Apply; it does not apply settings when menus open. Blueprint execution hooks are not required. Dawnwalker Mod Menu 1.0.6 or later is optional for the in-game controls and live Apply; its console bridge requires HookProcessConsoleExec to be enabled in UE4SS.
 
 ## Installation
 
