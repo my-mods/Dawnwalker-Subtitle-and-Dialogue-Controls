@@ -51,3 +51,9 @@ The font choice was inspired by WinterElfeas's [Alternative Font - Alegreya](htt
 `src` contains the runtime and settings integration. `assets` contains editable font package templates and the licensed font faces. `package` contains installer metadata and the cooked font containers. Convert the font templates with UAssetGUI, assemble their game-relative paths under `Dawnwalker/Content/UIAndSubtitles/Fonts`, and convert the legacy assets with retoc `to-zen --version UE5_5`. Package the matching `.ufont` files at those same paths in the companion `.pak`. Lua files belong under `Dawnwalker/Binaries/Win64/ue4ss/Mods/UIAndSubtitles/Scripts`.
 
 `assets/layout` contains the three tooltip widget templates; `assets/LAYOUT.json` identifies their original game paths and edited text defaults. Convert these JSON templates with UAssetGUI, retain those game-relative paths, and build a separate UE5_5 container set named `UIAndSubtitles_TooltipLayout_P` with retoc. Create its empty companion `.pak` from an empty folder with repak `pack --version V3`; the widget data lives in `.ucas` and `.utoc`. The layout templates change wrapping only; their game logic, text content and style references are retained.
+
+## Performance and diagnostics
+
+When Other UI is set to Keep current at 100%, initial optional screen preparation is skipped. The first custom UI Apply prepares the required defaults; turning customization off restores them. Captured widget templates are reused where available, with name lookup retained for templates that were already loaded. Loading a previously unused asset can still take a synchronous engine call.
+
+Enable the final **Logging** setting for diagnostics in `Dawnwalker/Binaries/Win64/ue4ss/UE4SS.log`. Leave it Off for normal play. Timings and offline checks do not establish an in-game frame-rate improvement.

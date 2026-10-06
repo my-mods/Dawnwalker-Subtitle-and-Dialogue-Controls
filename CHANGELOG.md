@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Skip optional screen preparation while other UI uses its current font at 100%, and reuse captured templates when customization is enabled.
+
 ## 0.1.0
 
 - Add independent cinematic subtitle, dialogue choice and gameplay subtitle sizes.

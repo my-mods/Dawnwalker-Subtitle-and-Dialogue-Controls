@@ -32,6 +32,8 @@ function M.new(report)
     local setters={}
     local owners,rich={},{DWW_RichText_C=true,RichTextBlock=true,CommonRichTextBlock=true}
     local assets,styles,styleByAddress,styleByClass,templates,templateByOwner,live={},{},{},{},{},{},{}
+    local templateOwners,templateCandidates={},{}
+    local templateBatch,templateKey=1,nil
     local inlineTemplates={}
     local liveCount=0
     local holders,pins,pinned={},{},{}
@@ -250,6 +252,11 @@ function M.new(report)
         local signature=table.concat({cfg.enabled,cfg.uiPercent,cfg.uiFontFamily},':')
         if signature==previous and why=='settings'then return end
         previous=signature;reason=why;cursor=1;key=nil;passWorld=worldNow()
+        -- There is nothing to restore before our first edit. Stock UI settings
+        -- must not force every optional screen into memory at startup.
+        if not prepared and #styles==0 and (cfg.enabled~=1 or cfg.uiPercent==100 and cfg.uiFontFamily==2) then
+            phase=nil;return
+        end
         -- An unavailable optional template must not make every Apply redo all
         -- startup work. A load retries preparation, reusing successful entries.
         local prepare=not prepared or why=='load' and needsRecovery
@@ -282,12 +289,38 @@ function M.new(report)
                 local row=manifest.widgets[cursor]
                 if row then
                     if not valid(assets[row.path])then assets[row.path],loaded=load(row.path)end
+                    templateOwners[assets[row.path]:GetAddress()]={object=assets[row.path],owner=row.owner}
                     cursor=cursor+1
                 else phase='snapshot-styles';cursor=1 end
             elseif phase=='snapshot-styles'then
                 local row=manifest.styles[cursor]
                 if row then rememberStyle(assets[row.path],row.ui);cursor=cursor+1
-                else phase='snapshot-templates';cursor=1;key=nil end
+                else
+                    -- Loaded widget trees already reached our construction
+                    -- capture. Index one label per operation instead of resolving
+                    -- every template through another global object search.
+                    if next(captured)then batches[#batches+1]=captured;captured={}end
+                    phase='index-templates';templateBatch=1;templateKey=nil
+                end
+            elseif phase=='index-templates'then
+                local batch=batches[templateBatch]
+                if not batch then phase='snapshot-templates';cursor=1;key=nil
+                else
+                    local address,label=next(batch,templateKey);templateKey=address
+                    if not address then templateBatch=templateBatch+1
+                    elseif valid(label)then
+                        local tree=label:GetOuter()
+                        local owner=valid(tree) and tree:GetOuter() or nil
+                        local entry=valid(owner) and templateOwners[owner:GetAddress()] or nil
+                        if entry and same(entry.object,owner) and tree:GetFName():ToString()=='WidgetTree'then
+                            local name=label:GetFName():ToString()
+                            if targets[entry.owner][name]==label:GetClass():GetFName():ToString()then
+                                templateCandidates[entry.owner]=templateCandidates[entry.owner] or {}
+                                templateCandidates[entry.owner][name]=label
+                            end
+                        end
+                    end
+                end
             elseif phase=='snapshot-templates'then
                 local row=manifest.widgets[cursor]
                 if not row then prepared=true;phase='styles';cursor=1
@@ -298,7 +331,8 @@ function M.new(report)
                         local entries=templateByOwner[row.owner]
                         local existing=entries and entries[name]
                         if not existing or not valid(existing.object)then
-                            local label=StaticFindObject(row.path..':WidgetTree.'..name)
+                            local label=templateCandidates[row.owner] and templateCandidates[row.owner][name]
+                            if not valid(label)then label=StaticFindObject(row.path..':WidgetTree.'..name)end
                             assert(valid(label) and label:GetClass():GetFName():ToString()==class,'UI template unavailable: '..row.owner..'.'..name)
                             local isRich=rich[class]==true
                             local selected=isRich and label.DefaultTextStyleOverrideClass or label.Style
@@ -371,7 +405,7 @@ function M.new(report)
         if not ok then
             if measuredPhase:match('^load') or measuredPhase:match('^snapshot')then needsRecovery=true end
             report('ui-'..measuredPhase..'-'..tostring(cursor),'Persistent UI operation failed: '..tostring(err))
-            if phase~='snapshot-templates' and phase~='discover' and phase~='live'then cursor=cursor+1 end
+            if phase~='snapshot-templates' and phase~='index-templates' and phase~='discover' and phase~='live'then cursor=cursor+1 end
         end
         if started then
             local elapsed=os.clock()-started;seconds=seconds+elapsed;maximum=math.max(maximum,elapsed)
@@ -379,7 +413,7 @@ function M.new(report)
             timing.count=timing.count+1;timing.seconds=timing.seconds+elapsed;measured[measuredPhase]=timing
             if not phase then
                 print(string.format('[UIAndSubtitles] persistent-ui reason=%s passes=%d styles=%d templates=%d labels=%d writes=%d elapsed=%.3fms work=%.3fms max-operation=%.3fms\n',reason,passes,#styles,#templates,liveCount,writes,(os.clock()-requestStarted)*1000,seconds*1000,maximum*1000))
-                for _,name in ipairs({'load-styles','load-widgets','snapshot-styles','snapshot-templates','styles','templates','discover','live'})do
+                for _,name in ipairs({'load-styles','load-widgets','snapshot-styles','index-templates','snapshot-templates','styles','templates','discover','live'})do
                     local timing=measured[name]
                     if timing then print(string.format('[UIAndSubtitles] phase=%s operations=%d work=%.3fms\n',name,timing.count,timing.seconds*1000))end
                 end
