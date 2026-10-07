@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "packages": {
+    "main": {
+      "id": "UIAndSubtitles",
+      "name": "UI and Subtitles - Configurable Font and Text Size",
+      "archive": "UI-and-Subtitles-Configurable-Font-and-Text-Size.zip",
+      "packageFormat": 1,
+      "baseline": {
+        "kind": "local",
+        "version": "0.1.0",
+        "normalizedVersion": "0.1.0",
+        "sourceCommit": "da5e73151287c1212fd671c213e9204f95fc44fa",
+        "sourceTag": null,
+        "archiveSha256": "3312b895e8903b565b59ac8f689df930ed1cae37d09ad597409b1247c7c54948",
+        "verifiedAt": "2026-10-07",
+        "nexus": null
+      },
+      "bindings": [
+        {
+          "path": "Nexus/metadata.json",
+          "jsonPointer": [
+            "version"
+          ],
+          "members": [
+            "Nexus/metadata.json"
+          ]
+        },
+        {
+          "path": "Nexus/metadata.json",
+          "jsonPointer": [
+            "file",
+            "version"
+          ],
+          "members": [
+            "Nexus/metadata.json"
+          ]
+        },
+        {
+          "path": "package/mod.manifest",
+          "pattern": "<version>(?P<version>[^<]+)</version>",
+          "count": 1,
+          "members": [
+            "mod.manifest"
+          ]
+        },
+        {
+          "path": "package/mod_settings.ini",
+          "pattern": "^Version\\s*=\\s*(?P<version>[^\\r\\n]+)",
+          "count": 1,
+          "members": [
+            "Dawnwalker/Binaries/Win64/ue4ss/Mods/UIAndSubtitles/mod_settings.ini"
+          ]
+        }
+      ],
+      "excludePaths": [
+        "Optional",
+        "Compatibility",
+        "VortexExtension"
+      ],
+      "pending": {
+        "impact": "patch",
+        "rationale": "Add consistent installer version metadata and identifiable development packages to the audited local baseline.",
+        "majorOverride": false,
+        "reviewedInputs": "dc9c312e1c80acbe2bbed7cb33792e806191d44aa350a917d1c98d5254c59f76",
+        "divergenceReviewed": false
+      }
+    }
+  }
+}
