@@ -1,15 +1,18 @@
+local Log=require('ModLog')
+local logDirectory=assert(debug.getinfo(1,'S').source:match('^@(.+[\\/])'))
+Log.initialize(logDirectory)
 -- UI and Subtitles - Configurable Font and Text Size. All engine access stays in registered game-thread callbacks.
 local directory=assert(debug.getinfo(1,'S').source:match('^@(.+[\\/])'))
-local cfg={enabled=1,subtitlePercent=75,dialoguePercent=100,gameplayPercent=100,fontFamily=1,uiPercent=100,uiFontFamily=2,debugLogging=0}
+local cfg={enabled=1,subtitlePercent=75,dialoguePercent=100,gameplayPercent=100,fontFamily=1,uiPercent=100,uiFontFamily=2,logLevel=2}
 local warned,warningCount={},0
 local function report(key,message)
     if message==nil then message=key;key=message end
     if warned[key] or warningCount>=24 then return end
     warned[key]=true;warningCount=warningCount+1
-    print('[UIAndSubtitles] '..message..'\n')
+    Log.warning(message)
 end
 for _,name in ipairs({'ExecuteInGameThread','ExecuteInGameThreadWithDelay','RegisterHook','StaticFindObject','FindFirstOf'})do
-    if type(_G[name])~='function' then report(name,'Required UE4SS API missing: '..name);return end
+    if type(_G[name])~='function' then Log.error('Required UE4SS API missing: '..name);return end
 end
 local function valid(o)return o~=nil and o:IsValid()==true end
 local function same(a,b)return valid(a) and valid(b) and a:GetAddress()==b:GetAddress() end
@@ -137,11 +140,11 @@ local function applyLabel(label)
             pcall(function()writing=true;label:SetFont(font)end);writing=false
             report('setfont','Font update failed: '..tostring(err));return
         end
-        if cfg.debugLogging==1 then diagnostics.writes=diagnostics.writes+1 end
+        if cfg.logLevel==4 then diagnostics.writes=diagnostics.writes+1 end
     end
-    if cfg.debugLogging==1 and diagnostics.samples<8 and not record.sampled then
+    if cfg.logLevel==4 and diagnostics.samples<8 and not record.sampled then
         diagnostics.samples=diagnostics.samples+1;record.sampled=true
-        print(string.format('[UIAndSubtitles] text=%s group=%s base=%.4f target=%.4f stored=%.4f\n',identity,group,record.baseSize,targetSize,font.Size))
+        Log.debug(string.format('[UIAndSubtitles] text=%s group=%s base=%.4f target=%.4f stored=%.4f\n',identity,group,record.baseSize,targetSize,font.Size))
     end
     if cfg.enabled==1 then record.lastSize=targetSize;record.lastFont=targetFont
     else record.lastSize=nil;record.lastFont=nil end
@@ -157,8 +160,8 @@ local function loadFont(selection)
     attemptedFonts[selection]=true
     local family=selection==0 and 'Afacad' or 'Alegreya'
     local path='/Game/UIAndSubtitles/Fonts/UIS_'..family..'.UIS_'..family
-    local start=cfg.debugLogging==1 and os.clock() or nil
-    if start then print('[UIAndSubtitles] font-load begin '..family..'\n')end
+    local start=cfg.logLevel==4 and os.clock() or nil
+    if start then Log.debug('[UIAndSubtitles] font-load begin '..family..'\n')end
     local ok,result=pcall(function()
         if not valid(system) or not valid(fontClass)then error('Font loading functions or Font class unavailable')end
         -- Soft references load unique mounted packages without depending on AssetRegistry entries.
@@ -171,7 +174,7 @@ local function loadFont(selection)
     end)
     if ok then fonts[selection]=result
     else report('font-'..family,'Font selection unavailable; size controls remain active. '..tostring(result))end
-    if start then print(string.format('[UIAndSubtitles] font-load end %s success=%s elapsed=%.3fms\n',family,tostring(ok),(os.clock()-start)*1000))end
+    if start then Log.debug(string.format('[UIAndSubtitles] font-load end %s success=%s elapsed=%.3fms\n',family,tostring(ok),(os.clock()-start)*1000))end
 end
 local pump
 local function schedule()
@@ -216,7 +219,7 @@ local function step()
     return false
 end
 pump=function()
-    local start=cfg.debugLogging==1 and os.clock() or nil
+    local start=cfg.logLevel==4 and os.clock() or nil
     -- Apply is a short user-triggered burst. Larger batches avoid a visible
     -- item-by-item wave; a time cap still bounds each callback. Ordinary subtitle
     -- events retain their smaller budget, and asset loads keep their own slice.
@@ -238,7 +241,7 @@ pump=function()
         diagnostics.jobs=diagnostics.jobs+1;diagnostics.seconds=diagnostics.seconds+elapsed;diagnostics.maximum=math.max(diagnostics.maximum,elapsed)
         if queueEmpty() and (diagnostics.last==0 or os.clock()-diagnostics.last>=30)then
             diagnostics.last=os.clock()
-            print(string.format('[UIAndSubtitles] jobs=%d writes=%d total=%.3fms max=%.3fms tracked-subtitles=%d\n',diagnostics.jobs,diagnostics.writes,diagnostics.seconds*1000,diagnostics.maximum*1000,recordCount))
+            Log.debug(string.format('[UIAndSubtitles] jobs=%d writes=%d total=%.3fms max=%.3fms tracked-subtitles=%d\n',diagnostics.jobs,diagnostics.writes,diagnostics.seconds*1000,diagnostics.maximum*1000,recordCount))
             diagnostics.jobs=0;diagnostics.writes=0;diagnostics.seconds=0;diagnostics.maximum=0
         end
     end
@@ -246,10 +249,10 @@ pump=function()
 end
 local function configure(snapshot)
     local changed=false
-    for key,value in pairs(snapshot)do if key~='debugLogging' and cfg[key]~=value then changed=true end;cfg[key]=value end
+    for key,value in pairs(snapshot)do if key~='logLevel' and cfg[key]~=value then changed=true end;cfg[key]=value end
     if not changed then return end
-    if cfg.debugLogging==1 then
-        print(string.format('[UIAndSubtitles] settings enabled=%d cinematic=%d dialogue=%d gameplay=%d other-ui=%d ui-font=%d\n',cfg.enabled,cfg.subtitlePercent,cfg.dialoguePercent,cfg.gameplayPercent,cfg.uiPercent,cfg.uiFontFamily))
+    if cfg.logLevel==4 then
+        Log.debug(string.format('[UIAndSubtitles] settings enabled=%d cinematic=%d dialogue=%d gameplay=%d other-ui=%d ui-font=%d\n',cfg.enabled,cfg.subtitlePercent,cfg.dialoguePercent,cfg.gameplayPercent,cfg.uiPercent,cfg.uiFontFamily))
     end
     if cfg.enabled==1 then
         refreshFont=true;attemptedFonts={};wantedFonts={[cfg.fontFamily]=true}

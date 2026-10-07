@@ -4,7 +4,7 @@
   "category": "User Interface",
   "author": "oOCamilleOo",
   "language": "English",
-  "version": "0.1.1-dev",
+  "version": "0.2.0-dev",
   "source": "https://github.com/my-mods/Dawnwalker-UI-and-Subtitles-Configurable-Font-and-Text-Size",
   "summary": "summary.txt",
   "description": "description.bbcode",
@@ -23,7 +23,7 @@
   "file": {
     "displayName": "UI and Subtitles - Configurable Font and Text Size",
     "filename": "UI-and-Subtitles-Configurable-Font-and-Text-Size.zip",
-    "version": "0.1.1-dev",
+    "version": "0.2.0-dev",
     "category": "main",
     "description": "file-description.txt",
     "modManagerDownload": true,

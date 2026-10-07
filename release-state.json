@@ -59,10 +59,10 @@
         "VortexExtension"
       ],
       "pending": {
-        "impact": "patch",
-        "rationale": "Add consistent installer version metadata and identifiable development packages to the audited local baseline.",
+        "impact": "minor",
+        "rationale": "Complete Nexus-baseline delta: installer/development provenance metadata and documentation; add compatible cumulative five-level Logging, preserving schema completion and failure-safe persistence, Debug-only timing guards, and regenerated current menu.",
         "majorOverride": false,
-        "reviewedInputs": "dc9c312e1c80acbe2bbed7cb33792e806191d44aa350a917d1c98d5254c59f76",
+        "reviewedInputs": "9f3e5c051fc1d64febce4378e8db46827cad50884648f21cdfed0fd97bbd475f",
         "divergenceReviewed": false
       }
     }

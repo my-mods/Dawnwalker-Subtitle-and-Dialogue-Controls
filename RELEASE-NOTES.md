@@ -1,3 +1,7 @@
+## Pending development
+
+- Choose how much diagnostic detail to record with five Logging levels, from silent Off to detailed Debug. Warning is the default.
+
 # UI and Subtitles - Configurable Font and Text Size
 
 - Cinematic subtitles start at 75% size, with separate controls for dialogue choices and gameplay subtitles.

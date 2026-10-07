@@ -6,4 +6,4 @@ gameplayPercent = 100
 fontFamily = 1
 uiPercent = 100
 uiFontFamily = 2
-debugLogging = 0
+logLevel = 2

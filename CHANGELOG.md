@@ -1,3 +1,7 @@
+## Pending development
+
+- Choose how much diagnostic detail to record with five Logging levels, from silent Off to detailed Debug. Warning is the default.
+
 # Changelog
 
 ## Unreleased

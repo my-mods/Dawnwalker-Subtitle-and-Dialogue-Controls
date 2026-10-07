@@ -11,7 +11,7 @@ Adjust cinematic subtitles, dialogue choices, gameplay subtitles and supported i
 | Subtitle and dialogue font | Alegreya | Vanilla (Afacad) / Alegreya |
 | Other UI text size | 100% | 25-200% |
 | Other UI font | Keep current | Keep current / Vanilla (Afacad) / Alegreya |
-| Logging | Off | Off / On |
+| Logging | Warning | Off / Error / Warning / Info / Debug |
 
 Sizes are percentages of the original text style or widget size, including any text style supplied by another mod. At 100%, the original size is retained. Cinematic size covers spoken lines, speaker names and movie subtitles. Dialogue choice size covers response choices and their quantity labels. Gameplay size covers bottom-screen lines, accessibility lines and overhead NPC subtitles. Distance scaling and dialogue effects remain controlled by the game. Extremely large text may exceed the game's layout space.
 
@@ -36,9 +36,9 @@ Open Mod Settings, select UI and Subtitles - Configurable Font and Text Size, ch
 
 The tooltip wrapping correction is loaded when the game starts. Its layout widths stay fixed while viewing an item, without an additional menu-opening script. It remains active when Enabled is off; that switch controls the font and size adjustments.
 
-Without Mod Settings, launch the game once to create `Dawnwalker/Binaries/Win64/ue4ss/Mods/UIAndSubtitles/settings.ini`. Close the game before editing its `[Settings]` section and restart afterward. `subtitlePercent`, `dialoguePercent`, `gameplayPercent` and `uiPercent` accept whole numbers from 25 to 200. `fontFamily = 0` selects vanilla Afacad; `fontFamily = 1` selects Alegreya. `uiFontFamily` uses the same values, plus 2 for Keep current. `enabled` and `debugLogging` use 0 for Off and 1 for On. At startup, an older valid preferences file receives only the missing UI keys with their defaults. Its previous contents are retained in `settings.ini.before-ui-controls`; existing values, comments and other sections are preserved. If a previous upgrade backup or temporary file needs attention, the log reports it instead of overwriting it. The archive does not contain an active settings.ini.
+Without Mod Settings, launch the game once to create `Dawnwalker/Binaries/Win64/ue4ss/Mods/UIAndSubtitles/settings.ini`. Close the game before editing its `[Settings]` section and restart afterward. `subtitlePercent`, `dialoguePercent`, `gameplayPercent` and `uiPercent` accept whole numbers from 25 to 200. `fontFamily = 0` selects vanilla Afacad; `fontFamily = 1` selects Alegreya. `uiFontFamily` uses the same values, plus 2 for Keep current. `enabled` and `logLevel` use 0 for Off and 1 for On. At startup, an older valid preferences file receives only the missing UI keys with their defaults. Its previous contents are retained in `settings.ini.before-ui-controls`; existing values, comments and other sections are preserved. If a previous upgrade backup or temporary file needs attention, the log reports it instead of overwriting it. The archive does not contain an active settings.ini.
 
-Turn Logging on to record UI preparation reasons, style/template/label counts, writes, elapsed time, work time for each stage, subtitle update counts and font-load timings in `Dawnwalker/Binaries/Win64/ue4ss/UE4SS.log`. Essential capability failures are reported once even with Logging off. Selected fonts load during startup or settings changes and are retained for the session. If a font package cannot load, size controls continue using the available font.
+Set Logging to Debug to record UI preparation reasons, style/template/label counts, writes, elapsed time, work time for each stage, subtitle update counts and font-load timings in `Dawnwalker/Binaries/Win64/ue4ss/UE4SS.log`. Essential capability failures are reported once at Warning or higher. Selected fonts load during startup or settings changes and are retained for the session. If a font package cannot load, size controls continue using the available font.
 
 ## Credits
 
@@ -56,4 +56,10 @@ The font choice was inspired by WinterElfeas's [Alternative Font - Alegreya](htt
 
 When Other UI is set to Keep current at 100%, initial optional screen preparation is skipped. The first custom UI Apply prepares the required defaults; turning customization off restores them. Captured widget templates are reused where available, with name lookup retained for templates that were already loaded. Loading a previously unused asset can still take a synchronous engine call.
 
-Enable the final **Logging** setting for diagnostics in `Dawnwalker/Binaries/Win64/ue4ss/UE4SS.log`. Leave it Off for normal play. Timings and offline checks do not establish an in-game frame-rate improvement.
+Enable the final **Logging** setting for diagnostics in `Dawnwalker/Binaries/Win64/ue4ss/UE4SS.log`. Leave it at Warning for normal play; select Debug for troubleshooting. Timings and offline checks do not establish an in-game frame-rate improvement.
+
+### Logging levels
+
+The final **Logging** setting offers **Off**, **Error**, **Warning** (default), **Info**, and **Debug**. Levels are cumulative: Error reports stopped features, Warning adds degraded capabilities, Info adds normal lifecycle events, and Debug adds detailed tracing and aggregate timings. Off silences all output from this mod. The numeric INI key is `logLevel` (0–4). Set Logging to Debug, Apply, reproduce an issue, and include `Dawnwalker/Binaries/Win64/ue4ss/UE4SS.log` in your report.
+
+An existing logging On choice becomes Debug; an existing Off choice becomes Warning. An explicit new level always takes precedence. Other settings and comments are retained during this startup conversion.

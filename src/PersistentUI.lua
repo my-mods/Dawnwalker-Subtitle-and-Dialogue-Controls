@@ -168,7 +168,7 @@ function M.new(report)
     local function change(entry,font,newSize,newFont)
         if font.Size==newSize and same(font.FontObject,newFont)then return false end
         font.Size=newSize;font.FontObject=newFont
-        if cfg.debugLogging==1 and requestStarted then writes=writes+1 end
+        if cfg.logLevel==4 and requestStarted then writes=writes+1 end
         return true
     end
     local function updateStyle(entry)
@@ -263,7 +263,7 @@ function M.new(report)
         phase=prepare and 'load-styles' or 'styles'
         if prepare then needsRecovery=false end
         requestStarted=nil
-        if cfg.debugLogging==1 then
+        if cfg.logLevel==4 then
             passes=passes+1;writes=0;seconds=0;maximum=0;measured={};requestStarted=os.clock()
         end
     end
@@ -276,7 +276,7 @@ function M.new(report)
         if not phase then return false end
         local measuredPhase=phase
         -- Enabling diagnostics mid-pass takes effect on the next complete pass.
-        local started=cfg.debugLogging==1 and requestStarted and os.clock() or nil
+        local started=cfg.logLevel==4 and requestStarted and os.clock() or nil
         local loaded=false
         local ok,err=pcall(function()
             if phase=='load-styles'then
@@ -412,10 +412,10 @@ function M.new(report)
             local timing=measured[measuredPhase] or {count=0,seconds=0}
             timing.count=timing.count+1;timing.seconds=timing.seconds+elapsed;measured[measuredPhase]=timing
             if not phase then
-                print(string.format('[UIAndSubtitles] persistent-ui reason=%s passes=%d styles=%d templates=%d labels=%d writes=%d elapsed=%.3fms work=%.3fms max-operation=%.3fms\n',reason,passes,#styles,#templates,liveCount,writes,(os.clock()-requestStarted)*1000,seconds*1000,maximum*1000))
+                require('ModLog').debug(string.format('[UIAndSubtitles] persistent-ui reason=%s passes=%d styles=%d templates=%d labels=%d writes=%d elapsed=%.3fms work=%.3fms max-operation=%.3fms\n',reason,passes,#styles,#templates,liveCount,writes,(os.clock()-requestStarted)*1000,seconds*1000,maximum*1000))
                 for _,name in ipairs({'load-styles','load-widgets','snapshot-styles','index-templates','snapshot-templates','styles','templates','discover','live'})do
                     local timing=measured[name]
-                    if timing then print(string.format('[UIAndSubtitles] phase=%s operations=%d work=%.3fms\n',name,timing.count,timing.seconds*1000))end
+                    if timing then require('ModLog').debug(string.format('[UIAndSubtitles] phase=%s operations=%d work=%.3fms\n',name,timing.count,timing.seconds*1000))end
                 end
             end
         end
